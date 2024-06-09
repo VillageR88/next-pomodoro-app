@@ -12,6 +12,9 @@ export default function Home() {
   const currentPercentage = (pomodoroTime / initialTime) * 100 > 0 ? (pomodoroTime / initialTime) * 100 : 100;
   const refPomodoro = useRef<HTMLInputElement>(null);
   const phase = running ? 'PAUSE' : pomodoroTime > 0 ? 'START' : 'RESTART';
+  const defaultValuePomodoro = 25;
+  const defaultValueShortBreak = 5;
+  const defaultValueLongBreak = 15;
 
   useEffect(() => {
     if (!running) return;
@@ -42,10 +45,9 @@ export default function Home() {
             onClick={() => {
               setShowSettings((prev) => !prev);
               if (showSettings && pomodoroTime === 0) {
-                const initialSettings = 1 * 60;
-                setPomodoroTime(initialSettings);
-                setInitialTime(initialSettings);
-                if (refPomodoro.current) refPomodoro.current.value = initialSettings.toString();
+                setPomodoroTime(defaultValuePomodoro * 60);
+                setInitialTime(defaultValuePomodoro * 60);
+                if (refPomodoro.current) refPomodoro.current.value = defaultValuePomodoro.toString();
               }
             }}
             title="close"
@@ -95,7 +97,7 @@ export default function Home() {
                     setInitialTime(initialSettings);
                   }
                 }}
-                defaultValue={25}
+                defaultValue={defaultValuePomodoro}
                 max={999}
                 onChange={(event) => {
                   setRunning(false);
@@ -153,10 +155,9 @@ export default function Home() {
           onClick={() => {
             setShowSettings((prev) => !prev);
             if (showSettings && pomodoroTime === 0) {
-              const initialSettings = 1 * 60;
-              setPomodoroTime(initialSettings);
-              setInitialTime(initialSettings);
-              if (refPomodoro.current) refPomodoro.current.value = initialSettings.toString();
+              setPomodoroTime(defaultValuePomodoro * 60);
+              setInitialTime(defaultValuePomodoro * 60);
+              if (refPomodoro.current) refPomodoro.current.value = defaultValuePomodoro.toString();
             }
           }}
           title="settings"
