@@ -1,9 +1,8 @@
 'use client';
 import Image from 'next/image';
 import imageSettings from '@/public/assets/icon-settings.svg';
-import imageClose from '@/public/assets/icon-close.svg';
 import imageArrowUp from '@/public/assets/icon-arrow-up.svg';
-import imageArrowDown from '@/public/assets/icon-arrow-down.svg';
+import imageClose from '@/public/assets/icon-close.svg';
 import { useState, useRef, useEffect } from 'react';
 
 export default function Home() {
@@ -13,6 +12,8 @@ export default function Home() {
   const [initialTime, setInitialTime] = useState<number>(25 * 60);
   const currentPercentage = (pomodoroTime / initialTime) * 100 > 0 ? (pomodoroTime / initialTime) * 100 : 100;
   const refPomodoro = useRef<HTMLInputElement>(null);
+  const buttonUp = useRef<HTMLButtonElement>(null);
+  const buttonDown = useRef<HTMLButtonElement>(null);
   const phase = running ? 'PAUSE' : pomodoroTime > 0 ? 'START' : 'RESTART';
   const defaultValuePomodoro = 25;
   const defaultValueShortBreak = 5;
@@ -39,7 +40,7 @@ export default function Home() {
   return (
     <div className="group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-clip py-[32px] sm:min-h-screen screen840:px-6">
       <div
-        className={`${showSettings ? 'block' : 'hidden'} absolute z-30  h-[464px] w-full max-w-[540px] rounded-[25px] bg-[#FFFFFF] pt-[34px] font-kumbhSans`}
+        className={`${showSettings ? 'block' : 'hidden'} absolute z-30 h-[464px] w-full max-w-[540px] rounded-[25px] bg-[#FFFFFF] pt-[34px] font-kumbhSans`}
       >
         <div className="flex h-[28px] w-full items-center justify-between pl-[40px] pr-[38.5px]">
           <h2 className=" text-[28px] font-bold text-[#161932]">Settings</h2>

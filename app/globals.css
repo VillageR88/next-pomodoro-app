@@ -14,28 +14,24 @@
   }
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
+/* Chrome, Safari, Edge, Opera */
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  opacity: 1;
-  @apply absolute right-[16px] top-[14px] h-[20px] w-[14px] bg-[url('../public/assets/arrows.svg')] bg-no-repeat object-cover;
-}
-input[type='number']::-webkit-inner-spin-button:hover,
-input[type='number']::-webkit-inner-spin-button:active {
-  @apply absolute right-[16px] top-[14px] h-[20px] w-[14px] bg-[url('../public/assets/arrowsHover.svg')] bg-no-repeat object-cover;
-}
-
+/* Firefox */
 input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  @apply absolute right-[16px] top-[14px] m-0 h-[20px] w-[14px] appearance-none bg-[url('../public/assets/arrows.svg')] bg-no-repeat object-cover opacity-100;
+}
+input::-webkit-outer-spin-button:hover,
+input::-webkit-inner-spin-button:hover {
+  @apply bg-[url('../public/assets/arrowsHover.svg')] opacity-100;
+}
+
+input input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
