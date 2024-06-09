@@ -8,8 +8,10 @@ export default function Home() {
   const [running, setRunning] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [pomodoroTime, setPomodoroTime] = useState<number>(25 * 60);
+  const [initialTime, setInitialTime] = useState<number>(25 * 60);
+  const currentPercentage = (pomodoroTime / initialTime) * 100 > 0 ? (pomodoroTime / initialTime) * 100 : 100;
   const refPomodoro = useRef<HTMLInputElement>(null);
-  const phase = running ? 'PAUSE' : 'START';
+  const phase = running ? 'PAUSE' : pomodoroTime > 0 ? 'START' : 'RESTART';
 
   useEffect(() => {
     if (!running) return;
@@ -21,7 +23,8 @@ export default function Home() {
         }
         return prev - 1;
       });
-    }, 1000);
+      //debug 1000 changed to 10
+    }, 10);
 
     return () => {
       clearInterval(interval);
@@ -29,9 +32,9 @@ export default function Home() {
   }, [running]);
 
   return (
-    <div className="group/home relative z-0 flex h-dvh flex-col items-center overflow-x-clip sm:min-h-screen screen840:justify-center screen840:px-6">
+    <div className="group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-clip py-[32px] sm:min-h-screen screen840:px-6">
       <div
-        className={`${showSettings ? 'block' : 'hidden'} absolute z-30  h-[464px] w-[540px] rounded-[25px] bg-[#FFFFFF] pt-[34px] font-kumbhSans`}
+        className={`${showSettings ? 'block' : 'hidden'} absolute z-30  h-[464px] w-full max-w-[540px] rounded-[25px] bg-[#FFFFFF] pt-[34px] font-kumbhSans`}
       >
         <div className="flex h-[28px] w-full items-center justify-between pl-[40px] pr-[38.5px]">
           <h2 className=" text-[28px] font-bold text-[#161932]">Settings</h2>
@@ -60,23 +63,38 @@ export default function Home() {
                 id="pomodoro"
                 type="number"
                 min={1}
+                onInput={(event) => {
+                  console.log(event.currentTarget.value);
+                  event.currentTarget.value = event.currentTarget.value.replace(/[^0-9]/g, '');
+                }}
                 onKeyDown={(event) => {
-                  if (event.key === 'e' || event.key === '.' || event.key === '-' || event.key === '+') {
+                  if (
+                    event.key === 'e' ||
+                    event.key === 'E' ||
+                    event.key === '.' ||
+                    event.key === ',' ||
+                    event.key === '-' ||
+                    event.key === '+'
+                  ) {
                     event.preventDefault();
                   }
                 }}
                 onKeyUp={() => {
+                  setRunning(false);
                   if (!refPomodoro.current) return;
                   const currentValue = refPomodoro.current.valueAsNumber;
                   if (currentValue >= 999) {
                     refPomodoro.current.valueAsNumber = 999;
                     setPomodoroTime(999 * 60);
+                    setInitialTime(999 * 60);
                   }
                 }}
                 defaultValue={25}
                 max={999}
                 onChange={(event) => {
+                  setRunning(false);
                   setPomodoroTime(Number(event.target.value) * 60);
+                  setInitialTime(Number(event.target.value) * 60);
                 }}
               />
             </div>
@@ -85,7 +103,7 @@ export default function Home() {
       </div>
       <header className="text-[32px] font-bold text-[#D7E0FF]">pomodoro</header>
       <nav className="z-10 mt-[55px] flex h-[63px] w-[373px] items-center rounded-[31.5px] bg-[#161932] pl-[7px] font-kumbhSans text-[14px] font-bold">
-        <button className="h-[48px] w-[120px] rounded-[26.5px] bg-[#F87070] text-[#1E213F]" type="button">
+        <button className="h-[48px] w-[120px] rounded-[26.5px] bg-[#F87070] text-[#1E213F] " type="button">
           pomodoro
         </button>
         <button type="button" className="ml-[22px] text-[#D7E0FF]/40">
@@ -102,7 +120,7 @@ export default function Home() {
           <svg className="absolute" viewBox="0 0 36 36">
             <path
               className="circle"
-              strokeDasharray="10, 100"
+              strokeDasharray={`${currentPercentage.toString()}, 100`}
               d="M18 2.0845
       a 15.9155 15.9155 0 0 1 0 31.831
       a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -114,6 +132,7 @@ export default function Home() {
           <button
             type="button"
             onClick={() => {
+              if (pomodoroTime === 0) setPomodoroTime(initialTime);
               setRunning((prev) => !prev);
             }}
             className="absolute mt-[170px] flex items-center justify-center text-center text-[16px] font-bold tracking-[15px] text-[#D7E0FF]"
@@ -136,4 +155,16 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+{
+  /* <button
+onClick={() => {
+  setShowSettings((prev) => !prev);
+}}
+title="close"
+className="relative size-[13px] self-end"
+type="button"
+>
+<Image fill src={imageClose as string} alt="close" />
+</button> */
 }
