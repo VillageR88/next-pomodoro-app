@@ -109,33 +109,6 @@ export default function Home() {
                     setInitialTime(initialSettings);
                   }}
                 />
-                <div
-                  onWheel={(event) => {
-                    if (!refPomodoro.current) return;
-                    if (event.deltaY > 0) refPomodoro.current.stepDown();
-                    if (event.deltaY < 0) refPomodoro.current.stepUp();
-                  }}
-                  className="absolute right-[16px] top-[14px] flex size-fit flex-col justify-between gap-[6px]"
-                >
-                  <button type="button" onClick={() => refPomodoro.current?.stepUp()} className="h-[7px] w-[14px]">
-                    <Image
-                      className="h-[7px] w-[14px]"
-                      width={14}
-                      height={7}
-                      src={imageArrowUp as string}
-                      alt="increase time"
-                    />
-                  </button>
-                  <button type="button" onClick={() => refPomodoro.current?.stepDown()} className="h-[7px] w-[14px]">
-                    <Image
-                      className="h-[7px] w-[14px]"
-                      width={14}
-                      height={7}
-                      src={imageArrowDown as string}
-                      alt="decrease time"
-                    />
-                  </button>
-                </div>
               </div>
             </div>
           </div>
