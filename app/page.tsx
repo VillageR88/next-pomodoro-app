@@ -41,6 +41,12 @@ export default function Home() {
           <button
             onClick={() => {
               setShowSettings((prev) => !prev);
+              if (showSettings && pomodoroTime === 0) {
+                const initialSettings = 1 * 60;
+                setPomodoroTime(initialSettings);
+                setInitialTime(initialSettings);
+                if (refPomodoro.current) refPomodoro.current.value = initialSettings.toString();
+              }
             }}
             title="close"
             className="relative size-[13px] self-end"
@@ -84,16 +90,18 @@ export default function Home() {
                   const currentValue = refPomodoro.current.valueAsNumber;
                   if (currentValue >= 999) {
                     refPomodoro.current.valueAsNumber = 999;
-                    setPomodoroTime(999 * 60);
-                    setInitialTime(999 * 60);
+                    const initialSettings = 999 * 60;
+                    setPomodoroTime(initialSettings);
+                    setInitialTime(initialSettings);
                   }
                 }}
                 defaultValue={25}
                 max={999}
                 onChange={(event) => {
                   setRunning(false);
-                  setPomodoroTime(Number(event.target.value) * 60);
-                  setInitialTime(Number(event.target.value) * 60);
+                  const initialSettings = Number(event.target.value) * 60;
+                  setPomodoroTime(initialSettings);
+                  setInitialTime(initialSettings);
                 }}
               />
             </div>
@@ -144,6 +152,12 @@ export default function Home() {
         <button
           onClick={() => {
             setShowSettings((prev) => !prev);
+            if (showSettings && pomodoroTime === 0) {
+              const initialSettings = 1 * 60;
+              setPomodoroTime(initialSettings);
+              setInitialTime(initialSettings);
+              if (refPomodoro.current) refPomodoro.current.value = initialSettings.toString();
+            }
           }}
           title="settings"
           className="relative h-[28px] w-[27px]"
