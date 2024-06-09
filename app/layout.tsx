@@ -24,9 +24,9 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Multi-step form',
-  description: 'Multi-step form',
-  applicationName: 'Multi-step form',
+  title: 'Pomodoro app',
+  description: 'Pomodoro app',
+  applicationName: 'Pomodoro app',
 } as const;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"></link>
         <meta property="og:image" content={undefined} />
       </head>
-      <body className={`${kumbhSans.variable} ${robotoSlab.variable} ${spaceMono.variable} bg-[#EFF5FF]`}>
+      <body className={`${kumbhSans.variable} ${robotoSlab.variable} ${spaceMono.variable} bg-[#1E213F]`}>
         {children}
       </body>
     </html>
