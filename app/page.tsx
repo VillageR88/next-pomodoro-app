@@ -2,6 +2,8 @@
 import Image from 'next/image';
 import imageSettings from '@/public/assets/icon-settings.svg';
 import imageClose from '@/public/assets/icon-close.svg';
+import imageArrowUp from '@/public/assets/icon-arrow-up.svg';
+import imageArrowDown from '@/public/assets/icon-arrow-down.svg';
 import { useState, useRef, useEffect } from 'react';
 
 export default function Home() {
@@ -65,47 +67,76 @@ export default function Home() {
               <label className="text-[12px] font-bold text-[#1E213F]/40" htmlFor="pomodoro">
                 pomodoro
               </label>
-              <input
-                ref={refPomodoro}
-                className="h-[48px] rounded-[10px] bg-[#EFF1FA] px-[16px] text-[14px] font-bold outline-none"
-                id="pomodoro"
-                type="number"
-                min={1}
-                onInput={(event) => {
-                  event.currentTarget.value = event.currentTarget.value.replace(/[^0-9]/g, '');
-                }}
-                onKeyDown={(event) => {
-                  if (
-                    event.key === 'e' ||
-                    event.key === 'E' ||
-                    event.key === '.' ||
-                    event.key === ',' ||
-                    event.key === '-' ||
-                    event.key === '+'
-                  ) {
-                    event.preventDefault();
-                  }
-                }}
-                onKeyUp={() => {
-                  setRunning(false);
-                  if (!refPomodoro.current) return;
-                  const currentValue = refPomodoro.current.valueAsNumber;
-                  if (currentValue >= 999) {
-                    refPomodoro.current.valueAsNumber = 999;
-                    const initialSettings = 999 * 60;
+              <div className="relative">
+                <input
+                  ref={refPomodoro}
+                  className="h-[48px] w-[140px] rounded-[10px] bg-[#EFF1FA] px-[16px] text-[14px] font-bold outline-none"
+                  id="pomodoro"
+                  type="number"
+                  min={1}
+                  onInput={(event) => {
+                    event.currentTarget.value = event.currentTarget.value.replace(/[^0-9]/g, '');
+                  }}
+                  onKeyDown={(event) => {
+                    if (
+                      event.key === 'e' ||
+                      event.key === 'E' ||
+                      event.key === '.' ||
+                      event.key === ',' ||
+                      event.key === '-' ||
+                      event.key === '+'
+                    ) {
+                      event.preventDefault();
+                    }
+                  }}
+                  onKeyUp={() => {
+                    setRunning(false);
+                    if (!refPomodoro.current) return;
+                    const currentValue = refPomodoro.current.valueAsNumber;
+                    if (currentValue >= 999) {
+                      refPomodoro.current.valueAsNumber = 999;
+                      const initialSettings = 999 * 60;
+                      setPomodoroTime(initialSettings);
+                      setInitialTime(initialSettings);
+                    }
+                  }}
+                  defaultValue={defaultValuePomodoro}
+                  max={999}
+                  onChange={(event) => {
+                    setRunning(false);
+                    const initialSettings = Number(event.target.value) * 60;
                     setPomodoroTime(initialSettings);
                     setInitialTime(initialSettings);
-                  }
-                }}
-                defaultValue={defaultValuePomodoro}
-                max={999}
-                onChange={(event) => {
-                  setRunning(false);
-                  const initialSettings = Number(event.target.value) * 60;
-                  setPomodoroTime(initialSettings);
-                  setInitialTime(initialSettings);
-                }}
-              />
+                  }}
+                />
+                <div
+                  onWheel={(event) => {
+                    if (!refPomodoro.current) return;
+                    if (event.deltaY > 0) refPomodoro.current.stepDown();
+                    if (event.deltaY < 0) refPomodoro.current.stepUp();
+                  }}
+                  className="absolute right-[16px] top-[14px] flex size-fit flex-col justify-between gap-[6px]"
+                >
+                  <button type="button" onClick={() => refPomodoro.current?.stepUp()} className="h-[7px] w-[14px]">
+                    <Image
+                      className="h-[7px] w-[14px]"
+                      width={14}
+                      height={7}
+                      src={imageArrowUp as string}
+                      alt="increase time"
+                    />
+                  </button>
+                  <button type="button" onClick={() => refPomodoro.current?.stepDown()} className="h-[7px] w-[14px]">
+                    <Image
+                      className="h-[7px] w-[14px]"
+                      width={14}
+                      height={7}
+                      src={imageArrowDown as string}
+                      alt="decrease time"
+                    />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
