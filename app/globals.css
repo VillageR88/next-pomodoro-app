@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .circle {
-    @apply stroke-[#F87070] fill-none stroke-[1px];
+  @apply fill-none stroke-[#F87070] stroke-[1px];
   stroke-linecap: round;
   animation: progress 1s ease-out forwards;
 }
@@ -12,4 +12,13 @@
   0% {
     stroke-dasharray: 0 100;
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
