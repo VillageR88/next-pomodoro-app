@@ -52,9 +52,11 @@ export default function Home() {
             onClick={() => {
               setShowSettings((prev) => !prev);
               if (showSettings && generalTimer === 0) {
-                setGeneralTimer(defaultValuePomodoro * 60);
-                setInitialTime(defaultValuePomodoro * 60);
                 if (refPomodoro.current) refPomodoro.current.value = defaultValuePomodoro.toString();
+                if (selectedMode === SelectedMode.POMODORO) {
+                  setGeneralTimer(defaultValuePomodoro * 60);
+                  setInitialTime(defaultValuePomodoro * 60);
+                }
               }
             }}
             title="close"
@@ -95,23 +97,21 @@ export default function Home() {
                     }
                   }}
                   onKeyUp={() => {
-                    setRunning(false);
                     if (!refPomodoro.current) return;
                     const currentValue = refPomodoro.current.valueAsNumber;
                     if (currentValue >= 999) {
                       refPomodoro.current.valueAsNumber = 999;
-                      const initialSettings = 999 * 60;
-                      setGeneralTimer(initialSettings);
-                      setInitialTime(initialSettings);
                     }
                   }}
                   defaultValue={defaultValuePomodoro}
                   max={999}
                   onChange={(event) => {
-                    setRunning(false);
                     const initialSettings = Number(event.target.value) * 60;
-                    setGeneralTimer(initialSettings);
-                    setInitialTime(initialSettings);
+                    if (selectedMode === SelectedMode.POMODORO) {
+                      setRunning(false);
+                      setGeneralTimer(initialSettings);
+                      setInitialTime(initialSettings);
+                    }
                   }}
                 />
               </div>
@@ -125,6 +125,7 @@ export default function Home() {
           <button
             key={mode}
             onClick={() => {
+              setRunning(false);
               setSelectedMode(mode as SelectedMode);
               if (mode === SelectedMode.POMODORO) {
                 setGeneralTimer(defaultValuePomodoro * 60);
@@ -146,15 +147,6 @@ export default function Home() {
             {mode.toLowerCase().replace('_', ' ')}
           </button>
         ))}
-        {/* <button className="h-[48px] w-[120px] rounded-[26.5px] bg-[#F87070] text-[#1E213F] " type="button">
-          pomodoro
-        </button> */}
-        {/* <button type="button" className="ml-[22px] text-[#D7E0FF]/40">
-          short break
-        </button>
-        <button type="button" className="ml-[44px] text-[#D7E0FF]/40">
-          long break
-        </button> */}
       </nav>
       <main className="relative mt-[45px] flex size-[300px] items-center justify-center rounded-full bg-gradient-to-br from-[#0E112A] to-[#2E325A] sm:size-[410px]">
         <div className="absolute size-full rounded-full shadow-[55px_45px_60px_-15px_rgba(18,21,48,1)]"></div>
