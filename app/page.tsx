@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import imageSettings from '@/public/assets/icon-settings.svg';
-import imageArrowUp from '@/public/assets/icon-arrow-up.svg';
 import imageClose from '@/public/assets/icon-close.svg';
 import { useState, useRef, useEffect } from 'react';
 
@@ -12,8 +11,7 @@ export default function Home() {
   const [initialTime, setInitialTime] = useState<number>(25 * 60);
   const currentPercentage = (pomodoroTime / initialTime) * 100 > 0 ? (pomodoroTime / initialTime) * 100 : 100;
   const refPomodoro = useRef<HTMLInputElement>(null);
-  const buttonUp = useRef<HTMLButtonElement>(null);
-  const buttonDown = useRef<HTMLButtonElement>(null);
+
   const phase = running ? 'PAUSE' : pomodoroTime > 0 ? 'START' : 'RESTART';
   const defaultValuePomodoro = 25;
   const defaultValueShortBreak = 5;

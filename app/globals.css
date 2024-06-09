@@ -14,21 +14,24 @@
   }
 }
 
-/* Chrome, Safari, Edge, Opera */
-
 /* Firefox */
 input[type='number'] {
-  appearance: textfield;
-  -moz-appearance: textfield;
+  appearance: none; /* textfield also works! */
 }
 
+input[type="number"]:focus, 
+input[type="number"]:hover {
+    appearance: auto;
+}
+
+/* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   @apply absolute right-[16px] top-[14px] m-0 h-[20px] w-[14px] appearance-none bg-[url('../public/assets/arrows.svg')] bg-no-repeat object-cover opacity-100;
 }
 input::-webkit-outer-spin-button:hover,
 input::-webkit-inner-spin-button:hover {
-  @apply bg-[url('../public/assets/arrowsHover.svg')] opacity-100;
+  @apply cursor-pointer bg-[url('../public/assets/arrowsHover.svg')] opacity-100;
 }
 
 input input[type='number'] {
