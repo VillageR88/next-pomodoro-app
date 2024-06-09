@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  @apply shadow-[0_0_0_30px_white_inset] dark:shadow-[0_0_0_30px_#1c1c1c_inset];
+  -webkit-text-fill-color: black;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-text-size-adjust: none;
+}
+:is(.dark) input:-webkit-autofill {
+  -webkit-text-fill-color: white;
+}
+
+h1 {
+  @apply text-[24px] font-bold text-[#022959] screen840:text-[32px];
+}
+
+h2 {
+  @apply text-[16px] font-medium text-[#022959];
+}
+
+.h3Label {
+  @apply text-[14px] font-bold transition-colors;
+}
+
+p {
+  @apply text-[14px] font-normal text-[#9699AA];
+}
+
+label {
+  @apply text-[14px] text-[#022959];
+}
+.errorInput {
+  @apply border-[#EE374A] text-[#EE374A] focus:border-[#EE374A];
+}
+
+input[type='text'],
+input[type='email'],
+input[type='tel'] {
+  @apply h-[48px] w-full rounded-[8px] border px-[16px] text-[15px] font-medium leading-[25px] outline-none placeholder:text-[#9699AA] screen840:text-[16px];
+}
+input[type='text']:not(.errorInput),
+input[type='email']:not(.errorInput),
+input[type='tel']:not(.errorInput) {
+  @apply text-[#022959] focus:border-[#483EFF];
+}
+
+input[type='radio'] {
+  @apply appearance-none;
+}
+
+.radioParent:has(input[type='radio']:checked) {
+  @apply border-[#483EFF] bg-[#F8F9FF] transition;
+}
+
+.checkParent:has(input[type='checkbox']:checked) {
+  @apply border-[#483EFF] bg-[#F8F9FF] transition;
+}
+
+.radioParent {
+  @apply flex cursor-pointer gap-[14px] rounded-[8px] border border-[#D6D9E6] pb-[16px] pl-[24px] pt-[20px] hover:border-[#483EFF] screen840:w-[138px] screen840:flex-col screen1200:gap-[39px];
+}
+
+.checkParent:has(input:focus-visible) {
+  @apply border-[#483EFF];
+}
+
+.radioParent:has(input:focus-visible) {
+  @apply border-[#483EFF];
+}
+
+.checkParent {
+  @apply h-[81px] w-full cursor-pointer rounded-[8px] border border-[#D6D9E6] hover:border-[#483EFF];
+}
+
+.inputDiv {
+  @apply flex flex-col gap-[8px];
+}
+
+.addonCost {
+  @apply text-[14px] leading-[20px] text-[#483EFF];
+}
+
+.normal {
+  @apply border-white text-white;
+}
+
+.circle1 {
+  @apply group-has-[.yourInfo.selected]/home:border-[#BEE2FD] group-has-[.yourInfo.selected]/home:bg-[#BEE2FD] group-has-[.yourInfo.selected]/home:text-[#022959];
+}
+
+.circle2 {
+  @apply group-has-[.selectPlan.selected]/home:border-[#BEE2FD] group-has-[.selectPlan.selected]/home:bg-[#BEE2FD] group-has-[.selectPlan.selected]/home:text-[#022959];
+}
+
+.circle3 {
+  @apply group-has-[.addons.selected]/home:border-[#BEE2FD] group-has-[.addons.selected]/home:bg-[#BEE2FD] group-has-[.addons.selected]/home:text-[#022959];
+}
+
+.circle4 {
+  @apply group-has-[.summary.selected]/home:border-[#BEE2FD] group-has-[.summary.selected]/home:bg-[#BEE2FD] group-has-[.summary.selected]/home:text-[#022959];
+}
+.yourInfo,
+.addons,
+.selectPlan,
+.summary,
+.selected {
+  @apply cursor-default;
+}
+
+.mainComponent {
+  @apply z-10 mx-[16px] mt-[-73px] h-fit w-full max-w-[450px] flex-col gap-[40px] rounded-[10px] bg-white px-[24px] py-[32px] screen840:mt-[40px] screen840:rounded-none screen840:p-0;
+}
+.titleDescription {
+  @apply text-[16px];
+}
