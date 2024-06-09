@@ -64,7 +64,6 @@ export default function Home() {
                 type="number"
                 min={1}
                 onInput={(event) => {
-                  console.log(event.currentTarget.value);
                   event.currentTarget.value = event.currentTarget.value.replace(/[^0-9]/g, '');
                 }}
                 onKeyDown={(event) => {
@@ -113,10 +112,10 @@ export default function Home() {
           long break
         </button>
       </nav>
-      <main className="relative mt-[45px] flex size-[410px] items-center justify-center rounded-full bg-gradient-to-br from-[#0E112A] to-[#2E325A]">
+      <main className="relative mt-[45px] flex size-[300px] items-center justify-center rounded-full bg-gradient-to-br from-[#0E112A] to-[#2E325A] sm:size-[410px]">
         <div className="absolute size-full rounded-full shadow-[55px_45px_60px_-15px_rgba(18,21,48,1)]"></div>
         <div className="absolute size-full rounded-full shadow-[-55px_-45px_60px_-15px_rgba(39,44,90,1)]"></div>
-        <div className="relative flex size-[366px] flex-col items-center justify-center rounded-full bg-[#161932]">
+        <div className="relative flex size-[268px] flex-col items-center justify-center rounded-full bg-[#161932] sm:size-[366px]">
           <svg className="absolute" viewBox="0 0 36 36">
             <path
               className="circle"
@@ -126,7 +125,7 @@ export default function Home() {
       a 15.9155 15.9155 0 0 1 0 -31.831"
             />
           </svg>
-          <div className="absolute font-kumbhSans text-[100px] font-bold tracking-[-5px] text-[#D7E0FF]">
+          <div className="absolute font-kumbhSans text-[80px] font-bold tracking-[-4px] text-[#D7E0FF] sm:text-[100px] sm:tracking-[-5px]">
             {String(Math.floor(pomodoroTime / 60)).padStart(1, '0') + ':' + String(pomodoroTime % 60).padStart(2, '0')}
           </div>
           <button
@@ -135,7 +134,7 @@ export default function Home() {
               if (pomodoroTime === 0) setPomodoroTime(initialTime);
               setRunning((prev) => !prev);
             }}
-            className="absolute mt-[170px] flex items-center justify-center text-center text-[16px] font-bold tracking-[15px] text-[#D7E0FF]"
+            className="absolute mt-[120px] flex items-center justify-center text-center text-[14px] font-bold tracking-[13px] text-[#D7E0FF] sm:mt-[170px] sm:text-[16px] sm:tracking-[15px]"
           >
             <span className="w-fit pl-4 hover:text-[#F87070]">{phase}</span>
           </button>
