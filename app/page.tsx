@@ -4,15 +4,21 @@ import imageSettings from '@/public/assets/icon-settings.svg';
 import imageClose from '@/public/assets/icon-close.svg';
 import { useState, useRef, useEffect } from 'react';
 
+enum SelectedMode {
+  POMODORO = 'POMODORO',
+  SHORT_BREAK = 'SHORT_BREAK',
+  LONG_BREAK = 'LONG_BREAK',
+}
+
 export default function Home() {
   const [running, setRunning] = useState<boolean>(false);
+  const [selectedMode, setSelectedMode] = useState<SelectedMode>(SelectedMode.POMODORO);
   const [showSettings, setShowSettings] = useState<boolean>(false);
-  const [pomodoroTime, setPomodoroTime] = useState<number>(25 * 60);
+  const [generalTimer, setGeneralTimer] = useState<number>(25 * 60);
   const [initialTime, setInitialTime] = useState<number>(25 * 60);
-  const currentPercentage = (pomodoroTime / initialTime) * 100 > 0 ? (pomodoroTime / initialTime) * 100 : 100;
+  const currentPercentage = (generalTimer / initialTime) * 100 > 0 ? (generalTimer / initialTime) * 100 : 100;
   const refPomodoro = useRef<HTMLInputElement>(null);
-
-  const phase = running ? 'PAUSE' : pomodoroTime > 0 ? 'START' : 'RESTART';
+  const phase = running ? 'PAUSE' : generalTimer > 0 ? 'START' : 'RESTART';
   const defaultValuePomodoro = 25;
   const defaultValueShortBreak = 5;
   const defaultValueLongBreak = 15;
@@ -20,7 +26,7 @@ export default function Home() {
   useEffect(() => {
     if (!running) return;
     const interval = setInterval(() => {
-      setPomodoroTime((prev) => {
+      setGeneralTimer((prev) => {
         if (prev <= 0) {
           setRunning(false);
           return 0;
@@ -45,8 +51,8 @@ export default function Home() {
           <button
             onClick={() => {
               setShowSettings((prev) => !prev);
-              if (showSettings && pomodoroTime === 0) {
-                setPomodoroTime(defaultValuePomodoro * 60);
+              if (showSettings && generalTimer === 0) {
+                setGeneralTimer(defaultValuePomodoro * 60);
                 setInitialTime(defaultValuePomodoro * 60);
                 if (refPomodoro.current) refPomodoro.current.value = defaultValuePomodoro.toString();
               }
@@ -95,7 +101,7 @@ export default function Home() {
                     if (currentValue >= 999) {
                       refPomodoro.current.valueAsNumber = 999;
                       const initialSettings = 999 * 60;
-                      setPomodoroTime(initialSettings);
+                      setGeneralTimer(initialSettings);
                       setInitialTime(initialSettings);
                     }
                   }}
@@ -104,7 +110,7 @@ export default function Home() {
                   onChange={(event) => {
                     setRunning(false);
                     const initialSettings = Number(event.target.value) * 60;
-                    setPomodoroTime(initialSettings);
+                    setGeneralTimer(initialSettings);
                     setInitialTime(initialSettings);
                   }}
                 />
@@ -115,15 +121,40 @@ export default function Home() {
       </div>
       <header className="text-[32px] font-bold text-[#D7E0FF]">pomodoro</header>
       <nav className="z-10 mt-[55px] flex h-[63px] w-[373px] items-center rounded-[31.5px] bg-[#161932] pl-[7px] font-kumbhSans text-[14px] font-bold">
-        <button className="h-[48px] w-[120px] rounded-[26.5px] bg-[#F87070] text-[#1E213F] " type="button">
+        {Object.values(SelectedMode).map((mode) => (
+          <button
+            key={mode}
+            onClick={() => {
+              setSelectedMode(mode as SelectedMode);
+              if (mode === SelectedMode.POMODORO) {
+                setGeneralTimer(defaultValuePomodoro * 60);
+                setInitialTime(defaultValuePomodoro * 60);
+                if (refPomodoro.current) refPomodoro.current.value = defaultValuePomodoro.toString();
+              } else if (mode === SelectedMode.SHORT_BREAK) {
+                setGeneralTimer(defaultValueShortBreak * 60);
+                setInitialTime(defaultValueShortBreak * 60);
+              } else {
+                setGeneralTimer(defaultValueLongBreak * 60);
+                setInitialTime(defaultValueLongBreak * 60);
+              }
+            }}
+            type="button"
+            className={`h-[48px] w-[120px] rounded-[26.5px] ${
+              selectedMode === mode ? 'bg-[#F87070] text-[#1E213F]' : 'text-[#D7E0FF]/40'
+            }`}
+          >
+            {mode.toLowerCase().replace('_', ' ')}
+          </button>
+        ))}
+        {/* <button className="h-[48px] w-[120px] rounded-[26.5px] bg-[#F87070] text-[#1E213F] " type="button">
           pomodoro
-        </button>
-        <button type="button" className="ml-[22px] text-[#D7E0FF]/40">
+        </button> */}
+        {/* <button type="button" className="ml-[22px] text-[#D7E0FF]/40">
           short break
         </button>
         <button type="button" className="ml-[44px] text-[#D7E0FF]/40">
           long break
-        </button>
+        </button> */}
       </nav>
       <main className="relative mt-[45px] flex size-[300px] items-center justify-center rounded-full bg-gradient-to-br from-[#0E112A] to-[#2E325A] sm:size-[410px]">
         <div className="absolute size-full rounded-full shadow-[55px_45px_60px_-15px_rgba(18,21,48,1)]"></div>
@@ -139,12 +170,12 @@ export default function Home() {
             />
           </svg>
           <div className="absolute font-kumbhSans text-[80px] font-bold tracking-[-4px] text-[#D7E0FF] sm:text-[100px] sm:tracking-[-5px]">
-            {String(Math.floor(pomodoroTime / 60)).padStart(1, '0') + ':' + String(pomodoroTime % 60).padStart(2, '0')}
+            {String(Math.floor(generalTimer / 60)).padStart(1, '0') + ':' + String(generalTimer % 60).padStart(2, '0')}
           </div>
           <button
             type="button"
             onClick={() => {
-              if (pomodoroTime === 0) setPomodoroTime(initialTime);
+              if (generalTimer === 0) setGeneralTimer(initialTime);
               setRunning((prev) => !prev);
             }}
             className="absolute mt-[120px] flex items-center justify-center text-center text-[14px] font-bold tracking-[13px] text-[#D7E0FF] sm:mt-[170px] sm:text-[16px] sm:tracking-[15px]"
@@ -157,8 +188,8 @@ export default function Home() {
         <button
           onClick={() => {
             setShowSettings((prev) => !prev);
-            if (showSettings && pomodoroTime === 0) {
-              setPomodoroTime(defaultValuePomodoro * 60);
+            if (showSettings && generalTimer === 0) {
+              setGeneralTimer(defaultValuePomodoro * 60);
               setInitialTime(defaultValuePomodoro * 60);
               if (refPomodoro.current) refPomodoro.current.value = defaultValuePomodoro.toString();
             }
