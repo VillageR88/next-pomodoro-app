@@ -1,7 +1,8 @@
 export default function Home() {
   return (
     <div className="group/home relative z-0 flex h-dvh flex-col items-center overflow-x-clip sm:min-h-screen screen840:justify-center screen840:px-6">
-      <nav className="z-10 flex h-[63px] w-[373px] items-center rounded-[31.5px] bg-[#161932] pl-[7px] font-kumbhSans text-[14px] font-bold">
+      <header className="text-[32px] font-bold text-[#D7E0FF]">pomodoro</header>
+      <nav className="z-10 mt-[55px] flex h-[63px] w-[373px] items-center rounded-[31.5px] bg-[#161932] pl-[7px] font-kumbhSans text-[14px] font-bold">
         <button className="h-[48px] w-[120px] rounded-[26.5px] bg-[#F87070] text-[#1E213F]" type="button">
           pomodoro
         </button>
