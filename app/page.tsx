@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import imageSettings from '@/public/assets/icon-settings.svg';
+
 export default function Home() {
   return (
     <div className="group/home relative z-0 flex h-dvh flex-col items-center overflow-x-clip sm:min-h-screen screen840:justify-center screen840:px-6">
@@ -20,7 +23,7 @@ export default function Home() {
           <svg className="absolute" viewBox="0 0 36 36">
             <path
               className="circle"
-              stroke-dasharray="60"
+              stroke-dasharray="10, 100"
               d="M18 2.0845
       a 15.9155 15.9155 0 0 1 0 31.831
       a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -30,6 +33,11 @@ export default function Home() {
           <div className="absolute mt-[170px] text-[16px] font-bold tracking-[15px] text-[#D7E0FF]">PAUSE</div>
         </div>
       </main>
+      <footer className="mt-[63px]">
+        <button title="settings" className="relative h-[28px] w-[27px]" type="button">
+          <Image fill src={imageSettings as string} alt="settings" />
+        </button>
+      </footer>
     </div>
   );
 }
