@@ -9,6 +9,19 @@ enum SelectedMode {
   SHORT_BREAK = 'shortBreak',
   LONG_BREAK = 'longBreak',
 }
+
+enum SelectedFont {
+  KUMBH_SANS = 'kumbhSans',
+  ROBOTO_SLAB = 'robotoSlab',
+  SPACE_MONO = 'spaceMono',
+}
+
+const fontSettings = {
+  kumbhSans: { variable: 'font-kumbhSans' },
+  robotoSlab: { variable: 'font-robotoSlab' },
+  spaceMono: { variable: 'font-spaceMono' },
+};
+
 const defaultValuePomodoro = 25;
 const defaultValueShortBreak = 5;
 const defaultValueLongBreak = 15;
@@ -30,6 +43,7 @@ const settingsItems = {
 export default function Home() {
   const [running, setRunning] = useState<boolean>(false);
   const [selectedMode, setSelectedMode] = useState<SelectedMode>(SelectedMode.POMODORO);
+  const [selectedFont, setSelectedFont] = useState<SelectedFont>(SelectedFont.KUMBH_SANS);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [generalTimer, setGeneralTimer] = useState<number>(25 * 60);
   const [initialTime, setInitialTime] = useState<number>(25 * 60);
@@ -86,19 +100,21 @@ export default function Home() {
     }
   };
   return (
-    <div className="group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-clip py-[32px] sm:min-h-screen screen840:px-6">
+    <div
+      className={`${selectedFont} group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-clip py-[32px] sm:min-h-screen screen840:px-6`}
+    >
       <div
-        className={`${showSettings ? 'block' : 'hidden'} absolute z-30 h-[464px] w-full max-w-[540px] rounded-[25px] bg-[#FFFFFF] pt-[34px] font-kumbhSans`}
+        className={`${showSettings ? 'flex flex-col' : 'hidden'} absolute z-30 min-h-[464px] w-full max-w-[540px] items-center rounded-[25px] bg-[#FFFFFF] pt-[34px] ${fontSettings[selectedFont].variable}`}
       >
         <div className="flex h-[28px] w-full items-center justify-between pl-[40px] pr-[38.5px]">
-          <h2 className=" text-[28px] font-bold text-[#161932]">Settings</h2>
+          <h2 className="text-[28px] font-bold text-[#161932]">Settings</h2>
           <button onClick={handleOpenSettings} title="close" className="relative size-[13px] self-end" type="button">
             <Image fill src={imageClose as string} alt="close" />
           </button>
         </div>
         <div className="mt-[32px] h-px w-full bg-[#E3E1E1]"></div>
-        <div className="mt-[24px] flex h-[109px] w-full flex-col justify-between pl-[40px] pr-[38px]">
-          <h3 className="text-[13px] font-bold tracking-[5px] text-[#161932]">TIME (MINUTES)</h3>
+        <div className="mt-[24px] flex  w-full flex-col pl-[40px] pr-[38px]">
+          <h3>TIME (MINUTES)</h3>
           <div className="flex h-[70px] w-[462px] justify-between gap-[20px]">
             <ul className="flex w-full justify-between">
               {Object.entries(settingsItems).map(([key, value], index) => (
@@ -157,10 +173,30 @@ export default function Home() {
               ))}
             </ul>
           </div>
+          <div className="mt-[24px] h-px w-full bg-[#161932]/10"></div>
+          <div className="mt-[24px] flex h-[40px] w-full items-center justify-between">
+            <h3>FONT</h3>
+            <ul className="flex gap-[16px]">
+              {Object.values(SelectedFont).map((font) => (
+                <li key={font}>
+                  <button
+                    type="button"
+                    className="size-[40px] rounded-full bg-[#EFF1FA]"
+                    title={font}
+                    onClick={() => {
+                      setSelectedFont(font);
+                    }}
+                  >
+                    Aa
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-      <header className="text-[32px] font-bold text-[#D7E0FF]">pomodoro</header>
-      <nav className="z-10 mt-[55px] flex h-[63px] w-[373px] items-center rounded-[31.5px] bg-[#161932] pl-[7px] font-kumbhSans text-[14px] font-bold">
+      <header className="font-kumbhSans text-[32px] font-bold text-[#D7E0FF]">pomodoro</header>
+      <nav className="z-10 mt-[55px] flex h-[63px] w-[373px] items-center rounded-[31.5px] bg-[#161932] pl-[7px] text-[14px] font-bold">
         {Object.values(SelectedMode).map((mode) => (
           <button
             key={mode}
@@ -201,7 +237,7 @@ export default function Home() {
       a 15.9155 15.9155 0 0 1 0 -31.831"
             />
           </svg>
-          <div className="absolute font-kumbhSans text-[80px] font-bold tracking-[-4px] text-[#D7E0FF] sm:text-[100px] sm:tracking-[-5px]">
+          <div className="absolute text-[80px] font-bold tracking-[-4px] text-[#D7E0FF] sm:text-[100px] sm:tracking-[-5px]">
             {String(Math.floor(generalTimer / 60)).padStart(1, '0') + ':' + String(generalTimer % 60).padStart(2, '0')}
           </div>
           <button
