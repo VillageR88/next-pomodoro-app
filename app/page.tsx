@@ -58,6 +58,7 @@ export default function Home() {
   }, [running]);
 
   const handleOpenSettings = () => {
+    if (running) setRunning(false);
     setShowSettings((prev) => !prev);
     if (showSettings) {
       if (selectedMode === SelectedMode.POMODORO) {
@@ -206,16 +207,4 @@ export default function Home() {
       </footer>
     </div>
   );
-}
-{
-  /* <button
-onClick={() => {
-  setShowSettings((prev) => !prev);
-}}
-title="close"
-className="relative size-[13px] self-end"
-type="button"
->
-<Image fill src={imageClose as string} alt="close" />
-</button> */
 }
