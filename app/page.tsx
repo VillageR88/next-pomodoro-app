@@ -9,7 +9,6 @@ enum SelectedMode {
   SHORT_BREAK = 'shortBreak',
   LONG_BREAK = 'longBreak',
 }
-
 const defaultValuePomodoro = 25;
 const defaultValueShortBreak = 5;
 const defaultValueLongBreak = 15;
@@ -28,7 +27,6 @@ const settingsItems = {
     defaultValue: defaultValueLongBreak,
   },
 };
-
 export default function Home() {
   const [running, setRunning] = useState<boolean>(false);
   const [selectedMode, setSelectedMode] = useState<SelectedMode>(SelectedMode.POMODORO);
@@ -38,6 +36,13 @@ export default function Home() {
   const currentPercentage = (generalTimer / initialTime) * 100 > 0 ? (generalTimer / initialTime) * 100 : 100;
   const refTimer = useRef<HTMLInputElement[]>([]);
   const phase = running ? 'PAUSE' : generalTimer > 0 ? 'START' : 'RESTART';
+  const [audio, setAudio] = useState<HTMLAudioElement>();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setAudio(new Audio('../assets/Pager Beeps-SoundBible.com-260751720.mp3'));
+    }
+  }, []);
 
   useEffect(() => {
     if (!running) return;
@@ -57,9 +62,17 @@ export default function Home() {
     };
   }, [running]);
 
+  useEffect(() => {
+    if (generalTimer === 0 && running && audio) void audio.play();
+  }, [audio, generalTimer, running, showSettings]);
+
   const handleOpenSettings = () => {
-    if (running) setRunning(false);
+    if (audio) audio.currentTime = audio.duration;
+    if (running) {
+      setRunning(false);
+    }
     setShowSettings((prev) => !prev);
+
     if (showSettings) {
       if (selectedMode === SelectedMode.POMODORO) {
         setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
@@ -128,14 +141,6 @@ export default function Home() {
                       }}
                       defaultValue={value.defaultValue}
                       max={999}
-                      onChange={(event) => {
-                        const initialSettings = Number(event.target.value) * 60;
-                        if (SelectedMode[index] === key) {
-                          setRunning(false);
-                          setGeneralTimer(initialSettings);
-                          setInitialTime(initialSettings);
-                        }
-                      }}
                     />
                   </div>
                 </li>
@@ -150,6 +155,7 @@ export default function Home() {
           <button
             key={mode}
             onClick={() => {
+              if (audio) audio.currentTime = audio.duration;
               setRunning(false);
               setSelectedMode(mode);
               if (mode === SelectedMode.POMODORO) {
@@ -191,7 +197,10 @@ export default function Home() {
           <button
             type="button"
             onClick={() => {
-              if (generalTimer === 0) setGeneralTimer(initialTime);
+              if (generalTimer === 0) {
+                setGeneralTimer(initialTime);
+                if (audio) audio.currentTime = audio.duration;
+              }
               setRunning((prev) => !prev);
             }}
             className="absolute mt-[120px] flex items-center justify-center text-center text-[14px] font-bold tracking-[13px] text-[#D7E0FF] sm:mt-[170px] sm:text-[16px] sm:tracking-[15px]"
