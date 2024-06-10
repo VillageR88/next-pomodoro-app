@@ -10,6 +10,25 @@ enum SelectedMode {
   LONG_BREAK = 'LONG_BREAK',
 }
 
+const defaultValuePomodoro = 25;
+const defaultValueShortBreak = 5;
+const defaultValueLongBreak = 15;
+
+const settingsItems = {
+  pomodoro: {
+    label: 'pomodoro',
+    defaultValue: defaultValuePomodoro,
+  },
+  shortBreak: {
+    label: 'short break',
+    defaultValue: defaultValueShortBreak,
+  },
+  longBreak: {
+    label: 'long break',
+    defaultValue: defaultValueLongBreak,
+  },
+};
+
 export default function Home() {
   const [running, setRunning] = useState<boolean>(false);
   const [selectedMode, setSelectedMode] = useState<SelectedMode>(SelectedMode.POMODORO);
@@ -17,11 +36,8 @@ export default function Home() {
   const [generalTimer, setGeneralTimer] = useState<number>(25 * 60);
   const [initialTime, setInitialTime] = useState<number>(25 * 60);
   const currentPercentage = (generalTimer / initialTime) * 100 > 0 ? (generalTimer / initialTime) * 100 : 100;
-  const refPomodoro = useRef<HTMLInputElement>(null);
+  const refTimer = useRef<HTMLInputElement[]>([]);
   const phase = running ? 'PAUSE' : generalTimer > 0 ? 'START' : 'RESTART';
-  const defaultValuePomodoro = 25;
-  const defaultValueShortBreak = 5;
-  const defaultValueLongBreak = 15;
 
   useEffect(() => {
     if (!running) return;
@@ -52,7 +68,7 @@ export default function Home() {
             onClick={() => {
               setShowSettings((prev) => !prev);
               if (showSettings && generalTimer === 0) {
-                if (refPomodoro.current) refPomodoro.current.value = defaultValuePomodoro.toString();
+                if (refTimer.current[0]) refTimer.current[0].value = defaultValuePomodoro.toString();
                 if (selectedMode === SelectedMode.POMODORO) {
                   setGeneralTimer(defaultValuePomodoro * 60);
                   setInitialTime(defaultValuePomodoro * 60);
@@ -70,58 +86,64 @@ export default function Home() {
         <div className="mt-[24px] flex h-[109px] w-full flex-col justify-between pl-[40px] pr-[38px]">
           <h3 className="text-[13px] font-bold tracking-[5px] text-[#161932]">TIME (MINUTES)</h3>
           <div className="flex h-[70px] w-[462px] justify-between gap-[20px]">
-            <div className="flex w-[140px] flex-col justify-between gap-[8px]">
-              <label className="text-[12px] font-bold text-[#1E213F]/40" htmlFor="pomodoro">
-                pomodoro
-              </label>
-              <div className="relative">
-                <input
-                  ref={refPomodoro}
-                  className="h-[48px] w-[140px] rounded-[10px] bg-[#EFF1FA] px-[16px] text-[14px] font-bold outline-none"
-                  id="pomodoro"
-                  type="number"
-                  min={1}
-                  onInput={(event) => {
-                    event.currentTarget.value = event.currentTarget.value.replace(/[^0-9]/g, '');
-                  }}
-                  onKeyDown={(event) => {
-                    if (
-                      event.key === 'e' ||
-                      event.key === 'E' ||
-                      event.key === '.' ||
-                      event.key === ',' ||
-                      event.key === '-' ||
-                      event.key === '+'
-                    ) {
-                      event.preventDefault();
-                    }
-                  }}
-                  onKeyUp={() => {
-                    if (!refPomodoro.current) return;
-                    const currentValue = refPomodoro.current.valueAsNumber;
-                    if (currentValue >= 999) {
-                      refPomodoro.current.valueAsNumber = 999;
-                    }
-                  }}
-                  defaultValue={defaultValuePomodoro}
-                  max={999}
-                  onChange={(event) => {
-                    const initialSettings = Number(event.target.value) * 60;
-                    if (selectedMode === SelectedMode.POMODORO) {
-                      setRunning(false);
-                      setGeneralTimer(initialSettings);
-                      setInitialTime(initialSettings);
-                    }
-                  }}
-                />
-              </div>
-            </div>
+            <ul className="flex w-full justify-between">
+              {Object.entries(settingsItems).map(([key, value]) => (
+                <li key={key} className="flex w-[140px] flex-col justify-between gap-[8px]">
+                  <label className="text-[12px] font-bold text-[#1E213F]/40" htmlFor={key}>
+                    {value.label}
+                  </label>
+                  <div className="relative">
+                    <input
+                      ref={(element) => {
+                        if (element) refTimer.current.push(element);
+                      }}
+                      className="h-[48px] w-[140px] rounded-[10px] bg-[#EFF1FA] px-[16px] text-[14px] font-bold outline-none"
+                      id={key}
+                      type="number"
+                      min={1}
+                      onInput={(event) => {
+                        event.currentTarget.value = event.currentTarget.value.replace(/[^0-9]/g, '');
+                      }}
+                      onKeyDown={(event) => {
+                        if (
+                          event.key === 'e' ||
+                          event.key === 'E' ||
+                          event.key === '.' ||
+                          event.key === ',' ||
+                          event.key === '-' ||
+                          event.key === '+'
+                        ) {
+                          event.preventDefault();
+                        }
+                      }}
+                      onKeyUp={() => {
+                        if (!refTimer.current[0]) return;
+                        const currentValue = refTimer.current[0].valueAsNumber;
+                        if (currentValue >= 999) {
+                          refTimer.current[0].valueAsNumber = 999;
+                        }
+                      }}
+                      defaultValue={value.defaultValue}
+                      max={999}
+                      onChange={(event) => {
+                        const initialSettings = Number(event.target.value) * 60;
+                        if (selectedMode === SelectedMode.POMODORO) {
+                          setRunning(false);
+                          setGeneralTimer(initialSettings);
+                          setInitialTime(initialSettings);
+                        }
+                      }}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
       <header className="text-[32px] font-bold text-[#D7E0FF]">pomodoro</header>
       <nav className="z-10 mt-[55px] flex h-[63px] w-[373px] items-center rounded-[31.5px] bg-[#161932] pl-[7px] font-kumbhSans text-[14px] font-bold">
-        {Object.values(SelectedMode).map((mode) => (
+        {Object.values(SelectedMode).map((mode, index) => (
           <button
             key={mode}
             onClick={() => {
@@ -130,7 +152,7 @@ export default function Home() {
               if (mode === SelectedMode.POMODORO) {
                 setGeneralTimer(defaultValuePomodoro * 60);
                 setInitialTime(defaultValuePomodoro * 60);
-                if (refPomodoro.current) refPomodoro.current.value = defaultValuePomodoro.toString();
+                if (refTimer.current[0]) refTimer.current[0].value = defaultValuePomodoro.toString();
               } else if (mode === SelectedMode.SHORT_BREAK) {
                 setGeneralTimer(defaultValueShortBreak * 60);
                 setInitialTime(defaultValueShortBreak * 60);
@@ -183,7 +205,7 @@ export default function Home() {
             if (showSettings && generalTimer === 0) {
               setGeneralTimer(defaultValuePomodoro * 60);
               setInitialTime(defaultValuePomodoro * 60);
-              if (refPomodoro.current) refPomodoro.current.value = defaultValuePomodoro.toString();
+              if (refTimer.current[0]) refTimer.current[0].value = defaultValuePomodoro.toString();
             }
           }}
           title="settings"
