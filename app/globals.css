@@ -16,7 +16,6 @@
 
 h3 {
   @apply text-[13px] font-bold tracking-[5px] text-[#161932];
-
 }
 /* Firefox */
 input[type='number'] {
@@ -41,4 +40,8 @@ input:hover::-webkit-inner-spin-button {
 input input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
+}
+
+.buttonRing {
+  @apply rounded-full outline-1 outline-offset-[5px] outline-[#EFF1FA] hover:outline;
 }

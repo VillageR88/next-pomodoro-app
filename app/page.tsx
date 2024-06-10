@@ -17,9 +17,9 @@ enum SelectedFont {
 }
 
 const fontSettings = {
-  kumbhSans: { variable: 'font-kumbhSans' },
-  robotoSlab: { variable: 'font-robotoSlab' },
-  spaceMono: { variable: 'font-spaceMono' },
+  kumbhSans: { variable: 'font-kumbhSans', name: 'Kumbh Sans' },
+  robotoSlab: { variable: 'font-robotoSlab', name: 'Roboto Slab' },
+  spaceMono: { variable: 'font-spaceMono', name: 'Space Mono' },
 };
 
 const defaultValuePomodoro = 25;
@@ -177,12 +177,12 @@ export default function Home() {
           <div className="mt-[24px] flex h-[40px] w-full items-center justify-between">
             <h3>FONT</h3>
             <ul className="flex gap-[16px]">
-              {Object.values(SelectedFont).map((font) => (
-                <li key={font}>
+              {Object.values(SelectedFont).map((font, index, arr) => (
+                <li className="buttonRing" key={font}>
                   <button
                     type="button"
-                    className="size-[40px] rounded-full bg-[#EFF1FA]"
-                    title={font}
+                    className={`size-[40px] rounded-full ${font === selectedFont ? 'bg-[#161932] text-[#FFFFFF]' : ' bg-[#EFF1FA] text-[#1E213F]'} ${fontSettings[font].variable} ${arr.length === index + 2 ? '' : 'font-bold'}`}
+                    title={fontSettings[font].name}
                     onClick={() => {
                       setSelectedFont(font);
                     }}
