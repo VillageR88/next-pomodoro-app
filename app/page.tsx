@@ -143,16 +143,16 @@ export default function Home() {
       </div>
       <header className="text-[32px] font-bold text-[#D7E0FF]">pomodoro</header>
       <nav className="z-10 mt-[55px] flex h-[63px] w-[373px] items-center rounded-[31.5px] bg-[#161932] pl-[7px] font-kumbhSans text-[14px] font-bold">
-        {Object.values(SelectedMode).map((mode, index) => (
+        {Object.values(SelectedMode).map((mode) => (
           <button
             key={mode}
             onClick={() => {
               setRunning(false);
               setSelectedMode(mode as SelectedMode);
               if (mode === SelectedMode.POMODORO) {
-                setGeneralTimer(defaultValuePomodoro * 60);
-                setInitialTime(defaultValuePomodoro * 60);
-                if (refTimer.current[0]) refTimer.current[0].value = defaultValuePomodoro.toString();
+                setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
+                setInitialTime(refTimer.current[0].valueAsNumber * 60);
+                //if (refTimer.current[0]) refTimer.current[0].value = defaultValuePomodoro.toString();
               } else if (mode === SelectedMode.SHORT_BREAK) {
                 setGeneralTimer(defaultValueShortBreak * 60);
                 setInitialTime(defaultValueShortBreak * 60);
