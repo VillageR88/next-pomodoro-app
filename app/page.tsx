@@ -148,17 +148,16 @@ export default function Home() {
             key={mode}
             onClick={() => {
               setRunning(false);
-              setSelectedMode(mode as SelectedMode);
+              setSelectedMode(mode);
               if (mode === SelectedMode.POMODORO) {
                 setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
                 setInitialTime(refTimer.current[0].valueAsNumber * 60);
-                //if (refTimer.current[0]) refTimer.current[0].value = defaultValuePomodoro.toString();
               } else if (mode === SelectedMode.SHORT_BREAK) {
-                setGeneralTimer(defaultValueShortBreak * 60);
-                setInitialTime(defaultValueShortBreak * 60);
+                setGeneralTimer(refTimer.current[1].valueAsNumber * 60);
+                setInitialTime(refTimer.current[1].valueAsNumber * 60);
               } else {
-                setGeneralTimer(defaultValueLongBreak * 60);
-                setInitialTime(defaultValueLongBreak * 60);
+                setGeneralTimer(refTimer.current[2].valueAsNumber * 60);
+                setInitialTime(refTimer.current[2].valueAsNumber * 60);
               }
             }}
             type="button"
@@ -203,9 +202,16 @@ export default function Home() {
           onClick={() => {
             setShowSettings((prev) => !prev);
             if (showSettings && generalTimer === 0) {
-              setGeneralTimer(defaultValuePomodoro * 60);
-              setInitialTime(defaultValuePomodoro * 60);
-              if (refTimer.current[0]) refTimer.current[0].value = defaultValuePomodoro.toString();
+              if (selectedMode === SelectedMode.POMODORO) {
+                setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
+                setInitialTime(refTimer.current[0].valueAsNumber * 60);
+              } else if (selectedMode === SelectedMode.SHORT_BREAK) {
+                setGeneralTimer(refTimer.current[1].valueAsNumber * 60);
+                setInitialTime(refTimer.current[1].valueAsNumber * 60);
+              } else {
+                setGeneralTimer(refTimer.current[2].valueAsNumber * 60);
+                setInitialTime(refTimer.current[2].valueAsNumber * 60);
+              }
             }
           }}
           title="settings"
