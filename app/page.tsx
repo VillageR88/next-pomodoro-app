@@ -5,9 +5,9 @@ import imageClose from '@/public/assets/icon-close.svg';
 import { useState, useRef, useEffect } from 'react';
 
 enum SelectedMode {
-  POMODORO = 'POMODORO',
-  SHORT_BREAK = 'SHORT_BREAK',
-  LONG_BREAK = 'LONG_BREAK',
+  POMODORO = 'pomodoro',
+  SHORT_BREAK = 'shortBreak',
+  LONG_BREAK = 'longBreak',
 }
 
 const defaultValuePomodoro = 25;
@@ -57,6 +57,21 @@ export default function Home() {
     };
   }, [running]);
 
+  const handleOpenSettings = () => {
+    setShowSettings((prev) => !prev);
+    if (showSettings) {
+      if (selectedMode === SelectedMode.POMODORO) {
+        setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
+        setInitialTime(refTimer.current[0].valueAsNumber * 60);
+      } else if (selectedMode === SelectedMode.SHORT_BREAK) {
+        setGeneralTimer(refTimer.current[1].valueAsNumber * 60);
+        setInitialTime(refTimer.current[1].valueAsNumber * 60);
+      } else {
+        setGeneralTimer(refTimer.current[2].valueAsNumber * 60);
+        setInitialTime(refTimer.current[2].valueAsNumber * 60);
+      }
+    }
+  };
   return (
     <div className="group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-clip py-[32px] sm:min-h-screen screen840:px-6">
       <div
@@ -64,21 +79,7 @@ export default function Home() {
       >
         <div className="flex h-[28px] w-full items-center justify-between pl-[40px] pr-[38.5px]">
           <h2 className=" text-[28px] font-bold text-[#161932]">Settings</h2>
-          <button
-            onClick={() => {
-              setShowSettings((prev) => !prev);
-              if (showSettings && generalTimer === 0) {
-                if (refTimer.current[0]) refTimer.current[0].value = defaultValuePomodoro.toString();
-                if (selectedMode === SelectedMode.POMODORO) {
-                  setGeneralTimer(defaultValuePomodoro * 60);
-                  setInitialTime(defaultValuePomodoro * 60);
-                }
-              }
-            }}
-            title="close"
-            className="relative size-[13px] self-end"
-            type="button"
-          >
+          <button onClick={handleOpenSettings} title="close" className="relative size-[13px] self-end" type="button">
             <Image fill src={imageClose as string} alt="close" />
           </button>
         </div>
@@ -87,7 +88,7 @@ export default function Home() {
           <h3 className="text-[13px] font-bold tracking-[5px] text-[#161932]">TIME (MINUTES)</h3>
           <div className="flex h-[70px] w-[462px] justify-between gap-[20px]">
             <ul className="flex w-full justify-between">
-              {Object.entries(settingsItems).map(([key, value]) => (
+              {Object.entries(settingsItems).map(([key, value], index) => (
                 <li key={key} className="flex w-[140px] flex-col justify-between gap-[8px]">
                   <label className="text-[12px] font-bold text-[#1E213F]/40" htmlFor={key}>
                     {value.label}
@@ -117,17 +118,18 @@ export default function Home() {
                         }
                       }}
                       onKeyUp={() => {
-                        if (!refTimer.current[0]) return;
-                        const currentValue = refTimer.current[0].valueAsNumber;
+                        const currentValue = refTimer.current[index].valueAsNumber;
                         if (currentValue >= 999) {
-                          refTimer.current[0].valueAsNumber = 999;
+                          refTimer.current[index].valueAsNumber = 999;
+                          setGeneralTimer(999 * 60);
+                          setInitialTime(999 * 60);
                         }
                       }}
                       defaultValue={value.defaultValue}
                       max={999}
                       onChange={(event) => {
                         const initialSettings = Number(event.target.value) * 60;
-                        if (selectedMode === SelectedMode.POMODORO) {
+                        if (SelectedMode[index] === key) {
                           setRunning(false);
                           setGeneralTimer(initialSettings);
                           setInitialTime(initialSettings);
@@ -165,7 +167,7 @@ export default function Home() {
               selectedMode === mode ? 'bg-[#F87070] text-[#1E213F]' : 'text-[#D7E0FF]/40'
             }`}
           >
-            {mode.toLowerCase().replace('_', ' ')}
+            {settingsItems[mode].label}
           </button>
         ))}
       </nav>
@@ -198,26 +200,7 @@ export default function Home() {
         </div>
       </main>
       <footer className="mt-[63px]">
-        <button
-          onClick={() => {
-            setShowSettings((prev) => !prev);
-            if (showSettings && generalTimer === 0) {
-              if (selectedMode === SelectedMode.POMODORO) {
-                setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
-                setInitialTime(refTimer.current[0].valueAsNumber * 60);
-              } else if (selectedMode === SelectedMode.SHORT_BREAK) {
-                setGeneralTimer(refTimer.current[1].valueAsNumber * 60);
-                setInitialTime(refTimer.current[1].valueAsNumber * 60);
-              } else {
-                setGeneralTimer(refTimer.current[2].valueAsNumber * 60);
-                setInitialTime(refTimer.current[2].valueAsNumber * 60);
-              }
-            }
-          }}
-          title="settings"
-          className="relative h-[28px] w-[27px]"
-          type="button"
-        >
+        <button onClick={handleOpenSettings} title="settings" className="relative h-[28px] w-[27px]" type="button">
           <Image fill src={imageSettings as string} alt="settings" />
         </button>
       </footer>
