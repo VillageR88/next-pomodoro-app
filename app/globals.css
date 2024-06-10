@@ -45,3 +45,7 @@ input input[type='number'] {
 .buttonRing {
   @apply rounded-full outline-1 outline-offset-[5px] outline-[#EFF1FA] hover:outline;
 }
+
+.divLine {
+  @apply mt-[24px] border-b border-[[#161932]/10];
+}

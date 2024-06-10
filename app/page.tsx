@@ -112,8 +112,8 @@ export default function Home() {
             <Image fill src={imageClose as string} alt="close" />
           </button>
         </div>
-        <div className="mt-[32px] h-px w-full bg-[#E3E1E1]"></div>
-        <div className="mt-[24px] flex  w-full flex-col pl-[40px] pr-[38px]">
+        <div className="mt-[32px] w-full border-b border-[#E3E1E1]"></div>
+        <div className="mt-[24px] flex w-full flex-col pl-[40px] pr-[38px]">
           <h3>TIME (MINUTES)</h3>
           <div className="flex h-[70px] w-[462px] justify-between gap-[20px]">
             <ul className="flex w-full justify-between">
@@ -173,7 +173,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="mt-[24px] h-px w-full bg-[#161932]/10"></div>
+          <div className="divLine"></div>
           <div className="mt-[24px] flex h-[40px] w-full items-center justify-between">
             <h3>FONT</h3>
             <ul className="flex gap-[16px]">
