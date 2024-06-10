@@ -56,7 +56,6 @@ export default function Home() {
       });
       //debug 1000 changed to 10
     }, 10);
-
     return () => {
       clearInterval(interval);
     };
@@ -109,6 +108,13 @@ export default function Home() {
                   </label>
                   <div className="relative">
                     <input
+                      onBlur={() => {
+                        if (refTimer.current[index].value === '') {
+                          refTimer.current[index].valueAsNumber = 1;
+                          setGeneralTimer(1 * 60);
+                          setInitialTime(1 * 60);
+                        }
+                      }}
                       ref={(element) => {
                         if (element) refTimer.current.push(element);
                       }}
@@ -137,6 +143,10 @@ export default function Home() {
                           refTimer.current[index].valueAsNumber = 999;
                           setGeneralTimer(999 * 60);
                           setInitialTime(999 * 60);
+                        } else if (currentValue <= 1) {
+                          refTimer.current[index].valueAsNumber = 1;
+                          setGeneralTimer(1 * 60);
+                          setInitialTime(1 * 60);
                         }
                       }}
                       defaultValue={value.defaultValue}
