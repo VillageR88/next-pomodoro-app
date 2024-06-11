@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import imageClose from '@/public/assets/icon-close.svg';
 import imageCheck from '@/public/assets/check.svg';
+import imageReset from '@/public/assets/restart_alt_24dp_FILL0_wght400_GRAD0_opsz24.svg';
 import { DataContext } from '../_providers/DataContext';
 import { useContext } from 'react';
 import { settingsItems, SelectedFont, fontItems, SelectedTheme, themeItems } from '../_providers/DataContext';
@@ -44,7 +45,21 @@ export default function Settings() {
           className={`flex min-h-[549px] w-full max-w-[540px] flex-col items-center rounded-[25px] bg-[#FFFFFF] pt-[24px] sm:min-h-[464px] sm:pt-[34px]`}
         >
           <div className="flex h-[28px] w-full items-center justify-between pl-[40px] pr-[38.5px]">
-            <h2 className="text-[20px] font-bold text-[#161932] sm:text-[28px]">{items.title}</h2>
+            <div className="flex items-center gap-6">
+              <h2 className="text-[20px] font-bold text-[#161932] sm:text-[28px]">{items.title}</h2>
+              <button
+                onClick={() => {
+                  localStorage.clear();
+                  setSelectedFont(SelectedFont.kumbhSans);
+                  setSelectedTheme(SelectedTheme.redAlike);
+                }}
+                type="button"
+                title="reset settings"
+                className="relative size-[24px]"
+              >
+                <Image fill src={imageReset as string} alt="reset settings" />
+              </button>
+            </div>
             <button
               onClick={handleOpenSettings}
               title="close"
