@@ -1,6 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Kumbh_Sans, Roboto_Slab, Space_Mono } from 'next/font/google';
+import DataProvider from '@/app/_providers/DataContext';
+
 import { ReactNode } from 'react';
 
 const kumbhSans = Kumbh_Sans({
@@ -39,7 +41,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta property="og:image" content={undefined} />
       </head>
       <body className={`${kumbhSans.variable} ${robotoSlab.variable} ${spaceMono.variable} bg-[#1E213F]`}>
-        {children}
+        <DataProvider>{children}</DataProvider>
       </body>
     </html>
   );
