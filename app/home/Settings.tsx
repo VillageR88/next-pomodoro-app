@@ -4,7 +4,7 @@ import imageClose from '@/public/assets/icon-close.svg';
 import imageCheck from '@/public/assets/check.svg';
 import imageReset from '@/public/assets/restart_alt_24dp_FILL0_wght400_GRAD0_opsz24.svg';
 import { DataContext } from '../_providers/DataContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { settingsItems, SelectedFont, fontItems, SelectedTheme, themeItems } from '../_providers/DataContext';
 
 const items = {
@@ -30,12 +30,26 @@ export default function Settings() {
     selectedFont,
     selectedTheme,
     showSettings,
+    setShowSettings,
     refTimer,
     setGeneralTimer,
     setInitialTime,
     setSelectedFont,
     setSelectedTheme,
   } = useContext(DataContext);
+
+  useEffect(() => {
+    function handleEsc(event: KeyboardEvent) {
+      if (event.key === 'Escape' && showSettings) {
+        setShowSettings(false);
+      }
+    }
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [setShowSettings, showSettings]);
+
   return (
     <div
       className={`${showSettings ? 'block' : 'hidden'} ${fontItems[selectedFont].variable} absolute z-30 mt-[32px] w-full items-center sm:mt-[27px]`}
