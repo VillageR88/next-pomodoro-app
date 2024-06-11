@@ -111,11 +111,10 @@ export default function Settings() {
         <div className="divLine"></div>
         <div className="mt-[24px] flex h-[40px] w-full items-center justify-between">
           <h3>COLOR</h3>
-          <ul>
-            <li className="flex gap-[16px]">
-              {Object.values(SelectedTheme).map((theme) => (
+          <ul className="flex gap-[16px]">
+            {Object.values(SelectedTheme).map((theme) => (
+              <li key={theme} className="buttonRing">
                 <button
-                  key={theme}
                   type="button"
                   className={`size-[40px] rounded-full ${themeItems[theme].background} flex items-center justify-center`}
                   title={theme}
@@ -131,8 +130,8 @@ export default function Settings() {
                     alt="check"
                   />
                 </button>
-              ))}
-            </li>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
