@@ -5,21 +5,36 @@ import imageClose from '@/public/assets/icon-close.svg';
 import { useState, useRef, useEffect } from 'react';
 
 enum SelectedMode {
-  POMODORO = 'pomodoro',
-  SHORT_BREAK = 'shortBreak',
-  LONG_BREAK = 'longBreak',
+  pomodoro = 'pomodoro',
+  shortBreak = 'shortBreak',
+  longBreak = 'longBreak',
 }
 
 enum SelectedFont {
-  KUMBH_SANS = 'kumbhSans',
-  ROBOTO_SLAB = 'robotoSlab',
-  SPACE_MONO = 'spaceMono',
+  kumbhSans = 'kumbhSans',
+  robotoSlab = 'robotoSlab',
+  spaceMono = 'spaceMono',
 }
 
-const fontSettings = {
+enum SelectedTheme {
+  redAlike = 'redAlike',
+  blueAlike = 'blueAlike',
+  purpleAlike = 'purpleAlike',
+  // redAlike = '#F87070',
+  // blueAlike = '#70F3F8',
+  // purpleAlike = '#D881F8',
+}
+
+const fontItems = {
   kumbhSans: { variable: 'font-kumbhSans', name: 'Kumbh Sans' },
   robotoSlab: { variable: 'font-robotoSlab', name: 'Roboto Slab' },
   spaceMono: { variable: 'font-spaceMono', name: 'Space Mono' },
+};
+
+const themeItems = {
+  redAlike: { background: 'bg-[#F87070]' },
+  blueAlike: { background: 'bg-[#70F3F8]' },
+  purpleAlike: { background: 'bg-[#D881F8]' },
 };
 
 const defaultValuePomodoro = 25;
@@ -42,8 +57,9 @@ const settingsItems = {
 };
 export default function Home() {
   const [running, setRunning] = useState<boolean>(false);
-  const [selectedMode, setSelectedMode] = useState<SelectedMode>(SelectedMode.POMODORO);
-  const [selectedFont, setSelectedFont] = useState<SelectedFont>(SelectedFont.KUMBH_SANS);
+  const [selectedMode, setSelectedMode] = useState<SelectedMode>(SelectedMode.pomodoro);
+  const [selectedFont, setSelectedFont] = useState<SelectedFont>(SelectedFont.kumbhSans);
+  const [selectedTheme, setSelectedTheme] = useState<SelectedTheme>(SelectedTheme.redAlike);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [generalTimer, setGeneralTimer] = useState<number>(25 * 60);
   const [initialTime, setInitialTime] = useState<number>(25 * 60);
@@ -87,10 +103,10 @@ export default function Home() {
     setShowSettings((prev) => !prev);
 
     if (showSettings) {
-      if (selectedMode === SelectedMode.POMODORO) {
+      if (selectedMode === SelectedMode.pomodoro) {
         setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
         setInitialTime(refTimer.current[0].valueAsNumber * 60);
-      } else if (selectedMode === SelectedMode.SHORT_BREAK) {
+      } else if (selectedMode === SelectedMode.shortBreak) {
         setGeneralTimer(refTimer.current[1].valueAsNumber * 60);
         setInitialTime(refTimer.current[1].valueAsNumber * 60);
       } else {
@@ -101,10 +117,10 @@ export default function Home() {
   };
   return (
     <div
-      className={`${selectedFont} group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-clip py-[32px] sm:min-h-screen screen840:px-6`}
+      className={`${fontItems[selectedFont].variable} group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-clip py-[32px] sm:min-h-screen screen840:px-6`}
     >
       <div
-        className={`${showSettings ? 'flex flex-col' : 'hidden'} absolute z-30 min-h-[464px] w-full max-w-[540px] items-center rounded-[25px] bg-[#FFFFFF] pt-[34px] ${fontSettings[selectedFont].variable}`}
+        className={`${showSettings ? 'flex flex-col' : 'hidden'} absolute z-30 min-h-[464px] w-full max-w-[540px] items-center rounded-[25px] bg-[#FFFFFF] pt-[34px]`}
       >
         <div className="flex h-[28px] w-full items-center justify-between pl-[40px] pr-[38.5px]">
           <h2 className="text-[28px] font-bold text-[#161932]">Settings</h2>
@@ -181,8 +197,8 @@ export default function Home() {
                 <li className="buttonRing" key={font}>
                   <button
                     type="button"
-                    className={`size-[40px] rounded-full ${font === selectedFont ? 'bg-[#161932] text-[#FFFFFF]' : ' bg-[#EFF1FA] text-[#1E213F]'} ${fontSettings[font].variable} ${arr.length === index + 2 ? '' : 'font-bold'}`}
-                    title={fontSettings[font].name}
+                    className={`size-[40px] rounded-full ${font === selectedFont ? 'bg-[#161932] text-[#FFFFFF]' : ' bg-[#EFF1FA] text-[#1E213F]'} ${fontItems[font].variable} ${arr.length === index + 2 ? '' : 'font-bold'}`}
+                    title={fontItems[font].name}
                     onClick={() => {
                       setSelectedFont(font);
                     }}
@@ -192,6 +208,10 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+          </div>
+          <div className="divLine"></div>
+          <div className="mt-[24px] flex h-[40px] w-full items-center justify-between">
+            <h3>COLOR</h3>
           </div>
         </div>
       </div>
@@ -204,10 +224,10 @@ export default function Home() {
               if (audio) audio.currentTime = audio.duration;
               setRunning(false);
               setSelectedMode(mode);
-              if (mode === SelectedMode.POMODORO) {
+              if (mode === SelectedMode.pomodoro) {
                 setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
                 setInitialTime(refTimer.current[0].valueAsNumber * 60);
-              } else if (mode === SelectedMode.SHORT_BREAK) {
+              } else if (mode === SelectedMode.shortBreak) {
                 setGeneralTimer(refTimer.current[1].valueAsNumber * 60);
                 setInitialTime(refTimer.current[1].valueAsNumber * 60);
               } else {
@@ -217,7 +237,7 @@ export default function Home() {
             }}
             type="button"
             className={`h-[48px] w-[120px] rounded-[26.5px] ${
-              selectedMode === mode ? 'bg-[#F87070] text-[#1E213F]' : 'text-[#D7E0FF]/40'
+              selectedMode === mode ? `${themeItems[selectedTheme].background} text-[#1E213F]` : 'text-[#D7E0FF]/40'
             }`}
           >
             {settingsItems[mode].label}
