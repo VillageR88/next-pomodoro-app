@@ -97,7 +97,7 @@ export default function Home() {
             }}
             className="absolute mt-[120px] flex items-center justify-center text-center text-[14px] font-bold tracking-[13px] text-[#D7E0FF] sm:mt-[170px] sm:text-[16px] sm:tracking-[15px]"
           >
-            <span className="w-fit pl-4 hover:text-[#F87070]">{phase}</span>
+            <span className={`w-fit pl-4 ${themeItems[selectedTheme].textHover}`}>{phase}</span>
           </button>
         </div>
       </main>

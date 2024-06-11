@@ -29,9 +29,9 @@ export const fontItems = {
 };
 
 export const themeItems = {
-  redAlike: { background: 'bg-[#F87070]', stroke: 'stroke-[#F87070]' },
-  blueAlike: { background: 'bg-[#70F3F8]', stroke: 'stroke-[#70F3F8]' },
-  purpleAlike: { background: 'bg-[#D881F8]', stroke: 'stroke-[#D881F8]' },
+  redAlike: { background: 'bg-[#F87070]', stroke: 'stroke-[#F87070]', textHover: 'hover:text-[#F87070]' },
+  blueAlike: { background: 'bg-[#70F3F8]', stroke: 'stroke-[#70F3F8]', textHover: 'hover:text-[#70F3F8]' },
+  purpleAlike: { background: 'bg-[#D881F8]', stroke: 'stroke-[#D881F8]', textHover: 'hover:text-[#D881F8]' },
 };
 
 const defaultValuePomodoro = 25;
