@@ -38,7 +38,7 @@ export default function Settings() {
     <div className={`${showSettings ? 'block' : 'hidden'} absolute z-30 mt-[27px] w-full items-center`}>
       <div className="flex w-full flex-col items-center px-[24px]">
         <div
-          className={`flex min-h-[464px] w-full max-w-[540px] flex-col items-center rounded-[25px] bg-[#FFFFFF] pt-[34px]`}
+          className={`flex min-h-[549px] w-full max-w-[540px] flex-col items-center rounded-[25px] bg-[#FFFFFF] pt-[34px] sm:min-h-[464px]`}
         >
           <div className="flex h-[28px] w-full items-center justify-between pl-[40px] pr-[38.5px]">
             <h2 className="text-[28px] font-bold text-[#161932]">{items.title}</h2>
@@ -49,10 +49,13 @@ export default function Settings() {
           <div className="mt-[32px] w-full border-b border-[#E3E1E1]"></div>
           <div className="mt-[24px] flex w-full flex-col pl-[40px] pr-[38px]">
             <h3>{items.time.title}</h3>
-            <div className="mt-[22px] flex h-[70px] w-[462px] justify-between gap-[20px]">
-              <ul className="flex w-full flex-col justify-between sm:flex-row">
+            <div className="mt-[22px] flex w-full justify-between gap-[20px] sm:h-[70px] sm:w-[462px]">
+              <ul className="flex w-full flex-col justify-between gap-[8px] sm:flex-row sm:gap-0">
                 {Object.entries(settingsItems).map(([key, value], index) => (
-                  <li key={key} className="flex w-[140px] flex-col justify-between gap-[8px]">
+                  <li
+                    key={key}
+                    className="flex  flex-row items-center justify-between gap-[8px] sm:w-fit sm:flex-col sm:items-start"
+                  >
                     <label className="text-[12px] font-bold text-[#1E213F]/40" htmlFor={key}>
                       {value.label}
                     </label>
