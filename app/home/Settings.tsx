@@ -6,7 +6,17 @@ import { useContext } from 'react';
 import { settingsItems, SelectedFont, fontItems, SelectedTheme, themeItems } from '../_providers/DataContext';
 
 export default function Settings() {
-  const { handleOpenSettings, selectedFont, selectedTheme, showSettings, refTimer } = useContext(DataContext);
+  const {
+    handleOpenSettings,
+    selectedFont,
+    selectedTheme,
+    showSettings,
+    refTimer,
+    setGeneralTimer,
+    setInitialTime,
+    setSelectedFont,
+    setSelectedTheme,
+  } = useContext(DataContext);
   return (
     <div
       className={`${showSettings ? 'flex flex-col' : 'hidden'} absolute z-30 min-h-[464px] w-full max-w-[540px] items-center rounded-[25px] bg-[#FFFFFF] pt-[34px]`}
