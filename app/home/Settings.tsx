@@ -35,21 +35,26 @@ export default function Settings() {
     setSelectedTheme,
   } = useContext(DataContext);
   return (
-    <div className={`${showSettings ? 'block' : 'hidden'} absolute z-30 mt-[27px] w-full items-center`}>
+    <div className={`${showSettings ? 'block' : 'hidden'} absolute z-30 mt-[32px] w-full items-center sm:mt-[27px]`}>
       <div className="flex w-full flex-col items-center px-[24px]">
         <div
-          className={`flex min-h-[549px] w-full max-w-[540px] flex-col items-center rounded-[25px] bg-[#FFFFFF] pt-[34px] sm:min-h-[464px]`}
+          className={`flex min-h-[549px] w-full max-w-[540px] flex-col items-center rounded-[25px] bg-[#FFFFFF] pt-[24px] sm:min-h-[464px] sm:pt-[34px]`}
         >
           <div className="flex h-[28px] w-full items-center justify-between pl-[40px] pr-[38.5px]">
-            <h2 className="text-[28px] font-bold text-[#161932]">{items.title}</h2>
-            <button onClick={handleOpenSettings} title="close" className="relative size-[13px] self-end" type="button">
+            <h2 className="text-[20px] font-bold text-[#161932] sm:text-[28px]">{items.title}</h2>
+            <button
+              onClick={handleOpenSettings}
+              title="close"
+              className="relative size-[13px] sm:mb-px sm:self-end"
+              type="button"
+            >
               <Image fill src={imageClose as string} alt="close" />
             </button>
           </div>
-          <div className="mt-[32px] w-full border-b border-[#E3E1E1]"></div>
-          <div className="mt-[24px] flex w-full flex-col pl-[40px] pr-[38px]">
+          <div className="mt-[24px] w-full border-b border-[#E3E1E1] sm:mt-[32px]"></div>
+          <div className="mt-[24px] flex w-full flex-col items-center pl-[40px] pr-[38px] sm:items-start">
             <h3>{items.time.title}</h3>
-            <div className="mt-[22px] flex w-full justify-between gap-[20px] sm:h-[70px] sm:w-[462px]">
+            <div className="mt-[18px] flex w-full justify-between gap-[20px] sm:mt-[22px] sm:h-[70px] sm:w-[462px]">
               <ul className="flex w-full flex-col justify-between gap-[8px] sm:flex-row sm:gap-0">
                 {Object.entries(settingsItems).map(([key, value], index) => (
                   <li
@@ -111,7 +116,7 @@ export default function Settings() {
               </ul>
             </div>
             <div className="divLine"></div>
-            <div className="mt-[24px] flex h-[40px] w-full items-center justify-between">
+            <div className="mt-[24px] flex w-full flex-col items-center justify-between gap-[18px] sm:h-[40px] sm:flex-row">
               <h3>FONT</h3>
               <ul className="flex gap-[16px]">
                 {Object.values(SelectedFont).map((font, index, arr) => (
@@ -131,7 +136,7 @@ export default function Settings() {
               </ul>
             </div>
             <div className="divLine"></div>
-            <div className="mt-[24px] flex h-[40px] w-full items-center justify-between">
+            <div className="mt-[16px] flex w-full flex-col items-center justify-between gap-[18px] pb-[59px] sm:mt-[24px] sm:h-[40px] sm:flex-row sm:pb-0">
               <h3>{items.color.title}</h3>
               <ul className="flex gap-[16px]">
                 {Object.values(SelectedTheme).map((theme) => (

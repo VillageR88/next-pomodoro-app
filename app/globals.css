@@ -47,5 +47,5 @@ input input[type='number'] {
 }
 
 .divLine {
-  @apply mt-[24px] border-b border-[[#161932]/10];
+  @apply mt-[24px] w-full border-b border-[[#161932]/10];
 }

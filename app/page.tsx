@@ -5,23 +5,21 @@ import { DataContext } from '@/app/_providers/DataContext';
 import { useEffect, useContext } from 'react';
 import Settings from './home/Settings';
 import Header from '@/app/home/Header';
+import Navbar from './home/Navbar';
 import Spiral from './components/Spiral';
-import { SelectedMode, fontItems, settingsItems, themeItems } from '@/app/_providers/DataContext';
+import { fontItems, themeItems } from '@/app/_providers/DataContext';
 
 export default function Home() {
   const {
     selectedFont,
     selectedTheme,
-    selectedMode,
-    setSelectedMode,
+
     running,
     setRunning,
     generalTimer,
     setGeneralTimer,
     initialTime,
-    setInitialTime,
     handleOpenSettings,
-    refTimer,
     audio,
   } = useContext(DataContext);
   const currentPercentage = (generalTimer / initialTime) * 100 > 0 ? (generalTimer / initialTime) * 100 : 100;
@@ -46,38 +44,11 @@ export default function Home() {
 
   return (
     <div
-      className={`${fontItems[selectedFont].variable} group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-clip py-[32px] sm:min-h-screen screen840:px-6`}
+      className={`${fontItems[selectedFont].variable} group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-scroll py-[32px] sm:min-h-screen screen840:px-6`}
     >
       <Settings />
       <Header />
-      <nav className="z-10 mt-[55px] flex h-[63px] w-[373px] items-center rounded-[31.5px] bg-[#161932] pl-[7px] text-[14px] font-bold">
-        {Object.values(SelectedMode).map((mode) => (
-          <button
-            key={mode}
-            onClick={() => {
-              if (audio) audio.currentTime = audio.duration;
-              setRunning(false);
-              setSelectedMode(mode);
-              if (mode === SelectedMode.pomodoro) {
-                setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
-                setInitialTime(refTimer.current[0].valueAsNumber * 60);
-              } else if (mode === SelectedMode.shortBreak) {
-                setGeneralTimer(refTimer.current[1].valueAsNumber * 60);
-                setInitialTime(refTimer.current[1].valueAsNumber * 60);
-              } else {
-                setGeneralTimer(refTimer.current[2].valueAsNumber * 60);
-                setInitialTime(refTimer.current[2].valueAsNumber * 60);
-              }
-            }}
-            type="button"
-            className={`h-[48px] w-[120px] rounded-[26.5px] ${
-              selectedMode === mode ? `${themeItems[selectedTheme].background} text-[#1E213F]` : 'text-[#D7E0FF]/40'
-            }`}
-          >
-            {settingsItems[mode].label}
-          </button>
-        ))}
-      </nav>
+      <Navbar />
       <main className="relative mt-[45px] flex size-[300px] items-center justify-center rounded-full bg-gradient-to-br from-[#0E112A] to-[#2E325A] sm:size-[410px]">
         <div className="absolute size-full rounded-full shadow-[55px_45px_60px_-15px_rgba(18,21,48,1)]"></div>
         <div className="absolute size-full rounded-full shadow-[-55px_-45px_60px_-15px_rgba(39,44,90,1)]"></div>
