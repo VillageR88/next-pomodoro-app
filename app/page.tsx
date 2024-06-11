@@ -1,12 +1,12 @@
 'use client';
-import Image from 'next/image';
-import imageSettings from '@/public/assets/icon-settings.svg';
+
 import { DataContext } from '@/app/_providers/DataContext';
 import { useEffect, useContext } from 'react';
 import Settings from './home/Settings';
 import Header from '@/app/home/Header';
 import Navbar from './home/Navbar';
 import Spiral from './components/Spiral';
+import Footer from './home/Footer';
 import { fontItems, themeItems } from '@/app/_providers/DataContext';
 
 export default function Home() {
@@ -19,7 +19,6 @@ export default function Home() {
     generalTimer,
     setGeneralTimer,
     initialTime,
-    handleOpenSettings,
     audio,
   } = useContext(DataContext);
   const currentPercentage = (generalTimer / initialTime) * 100 > 0 ? (generalTimer / initialTime) * 100 : 100;
@@ -44,7 +43,7 @@ export default function Home() {
 
   return (
     <div
-      className={`${fontItems[selectedFont].variable} group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-scroll px-2 py-[32px] sm:min-h-screen screen840:px-6`}
+      className={`${fontItems[selectedFont].variable} group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-clip px-2 py-[32px] sm:min-h-screen sm:py-[80px] screen840:px-6`}
     >
       <Settings />
       <Header />
@@ -72,11 +71,7 @@ export default function Home() {
           </button>
         </div>
       </main>
-      <footer className="mt-[63px]">
-        <button onClick={handleOpenSettings} title="settings" className="relative h-[28px] w-[27px]" type="button">
-          <Image fill src={imageSettings as string} alt="settings" />
-        </button>
-      </footer>
+      <Footer />
     </div>
   );
 }
