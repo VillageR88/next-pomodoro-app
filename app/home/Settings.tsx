@@ -37,18 +37,21 @@ export default function Settings() {
     setSelectedFont,
     setSelectedTheme,
   } = useContext(DataContext);
-
   useEffect(() => {
     function handleEsc(event: KeyboardEvent) {
-      if (event.key === 'Escape' && showSettings) {
-        setShowSettings(false);
-      }
+      if (event.key === 'Escape' && showSettings)
+        if (!refTimer.current.map((element) => element === document.activeElement).includes(true)) {
+          setShowSettings(false);
+        } else {
+          if (!document.activeElement) return;
+          (document.activeElement as HTMLInputElement).blur();
+        }
     }
     window.addEventListener('keydown', handleEsc);
     return () => {
       window.removeEventListener('keydown', handleEsc);
     };
-  }, [setShowSettings, showSettings]);
+  }, [refTimer, setShowSettings, showSettings]);
 
   return (
     <div
