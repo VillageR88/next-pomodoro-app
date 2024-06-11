@@ -17,9 +17,6 @@ export enum SelectedTheme {
   redAlike = 'redAlike',
   blueAlike = 'blueAlike',
   purpleAlike = 'purpleAlike',
-  // redAlike = '#F87070',
-  // blueAlike = '#70F3F8',
-  // purpleAlike = '#D881F8',
 }
 
 export const fontItems = {
