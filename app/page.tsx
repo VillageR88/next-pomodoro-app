@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import imageSettings from '@/public/assets/icon-settings.svg';
 import imageClose from '@/public/assets/icon-close.svg';
+import imageCheck from '@/public/assets/check.svg';
 import { useState, useRef, useEffect } from 'react';
 
 enum SelectedMode {
@@ -212,6 +213,29 @@ export default function Home() {
           <div className="divLine"></div>
           <div className="mt-[24px] flex h-[40px] w-full items-center justify-between">
             <h3>COLOR</h3>
+            <ul>
+              <li className="flex gap-[16px]">
+                {Object.values(SelectedTheme).map((theme) => (
+                  <button
+                    key={theme}
+                    type="button"
+                    className={`size-[40px] rounded-full ${themeItems[theme].background} flex items-center justify-center`}
+                    title={theme}
+                    onClick={() => {
+                      setSelectedTheme(theme);
+                    }}
+                  >
+                    <Image
+                      width={15}
+                      height={11}
+                      className={`${theme === selectedTheme ? 'flex' : 'hidden'} h-[11px] w-[15px]`}
+                      src={imageCheck as string}
+                      alt="check"
+                    />
+                  </button>
+                ))}
+              </li>
+            </ul>
           </div>
         </div>
       </div>
