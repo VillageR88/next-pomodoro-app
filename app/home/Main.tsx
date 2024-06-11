@@ -31,7 +31,7 @@ export default function Main() {
     >
       <div className="absolute size-full rounded-full shadow-[40px_40px_60px_-15px_rgba(18,21,48,1)]"></div>
       <div className="absolute size-full rounded-full shadow-[-40px_-40px_60px_-15px_rgba(39,44,90,1)]"></div>
-      <div className="relative flex  size-[268px] flex-col items-center justify-center rounded-full bg-[#161932] text-[#D7E0FF] sm:size-[366px]">
+      <div className="relative flex size-[268px] flex-col items-center justify-center rounded-full bg-[#161932] text-[#D7E0FF] sm:size-[366px]">
         <Spiral currentPercentage={currentPercentage} selectedTheme={selectedTheme} />
         <h1 className={fontItems[selectedFont].h1Class}>
           {String(Math.floor(generalTimer / 60)).padStart(1, '0') + ':' + String(generalTimer % 60).padStart(2, '0')}

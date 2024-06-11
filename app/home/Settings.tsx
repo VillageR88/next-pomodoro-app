@@ -170,7 +170,7 @@ export default function Settings() {
                   <li className="buttonRing" key={value}>
                     <button
                       type="button"
-                      className={`size-[40px] rounded-full ${value === selectedFont ? 'bg-[#161932] text-[#FFFFFF]' : ' bg-[#EFF1FA] text-[#1E213F]'} ${fontItems[value].variable} ${arr.length === index + 2 ? '' : 'font-bold'}`}
+                      className={`size-[40px] rounded-full ${value === selectedFont ? 'bg-[#161932] text-[#FFFFFF]' : 'bg-[#EFF1FA] text-[#1E213F]'} ${fontItems[value].variable} ${arr.length === index + 2 ? '' : 'font-bold'}`}
                       title={fontItems[value].name}
                       onClick={() => {
                         setSelectedFont(value);
