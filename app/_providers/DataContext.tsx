@@ -84,20 +84,41 @@ export const DataContext = createContext(
   },
 );
 
+const audioFile = '../assets/Pager Beeps-SoundBible.com-260751720.mp3';
+const undefined = 'undefined';
+const font = 'font';
+const theme = 'theme';
+
 export default function DataProvider({ children }: { children: ReactNode }) {
   const [selectedFont, setSelectedFont] = useState<SelectedFont>(SelectedFont.kumbhSans);
   const [selectedTheme, setSelectedTheme] = useState<SelectedTheme>(SelectedTheme.redAlike);
   const [selectedMode, setSelectedMode] = useState<SelectedMode>(SelectedMode.pomodoro);
   const [running, setRunning] = useState<boolean>(false);
-  const [generalTimer, setGeneralTimer] = useState<number>(25 * 60);
-  const [initialTime, setInitialTime] = useState<number>(25 * 60);
+  const [generalTimer, setGeneralTimer] = useState<number>(defaultValuePomodoro * 60);
+  const [initialTime, setInitialTime] = useState<number>(defaultValuePomodoro * 60);
   const refTimer = useRef<HTMLInputElement[]>([]);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [audio, setAudio] = useState<HTMLAudioElement>();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setAudio(new Audio('../assets/Pager Beeps-SoundBible.com-260751720.mp3'));
+      const fontStorage = localStorage.getItem(font);
+      const themeStorage = localStorage.getItem(theme);
+      const valuePomodoro = localStorage.getItem(SelectedMode.pomodoro);
+      const valueShortBreak = localStorage.getItem(SelectedMode.shortBreak);
+      const valueLongBreak = localStorage.getItem(SelectedMode.longBreak);
+      if (fontStorage) setSelectedFont(fontStorage as SelectedFont);
+      if (themeStorage) setSelectedTheme(themeStorage as SelectedTheme);
+      if (valuePomodoro) refTimer.current[0].value = valuePomodoro;
+      if (valueShortBreak) refTimer.current[1].value = valueShortBreak;
+      if (valueLongBreak) refTimer.current[2].value = valueLongBreak;
+      document.documentElement.classList.remove('hidden');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setAudio(new Audio(audioFile));
     }
   }, []);
   useEffect(() => {

@@ -128,6 +128,7 @@ export default function Settings() {
                       title={fontItems[font].name}
                       onClick={() => {
                         setSelectedFont(font);
+                        localStorage.setItem('font', font);
                       }}
                     >
                       {items.font.letters}
@@ -148,6 +149,7 @@ export default function Settings() {
                       title={theme}
                       onClick={() => {
                         setSelectedTheme(theme);
+                        localStorage.setItem('theme', theme);
                       }}
                     >
                       <Image
