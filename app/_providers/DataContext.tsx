@@ -82,6 +82,7 @@ export default function DataProvider({ children }: { children: ReactNode }) {
   const refTimer = useRef<HTMLInputElement[]>([]);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [audio, setAudio] = useState<HTMLAudioElement>();
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setAudio(new Audio('../assets/Pager Beeps-SoundBible.com-260751720.mp3'));
@@ -90,7 +91,6 @@ export default function DataProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (generalTimer === 0 && running && audio) void audio.play();
   }, [audio, generalTimer, running, showSettings]);
-
   const handleOpenSettings = () => {
     if (audio) audio.currentTime = audio.duration;
     if (running) {
