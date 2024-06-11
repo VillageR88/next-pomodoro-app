@@ -30,8 +30,8 @@ export default function Main() {
     <main
       className={`${fontItems[selectedFont].variable} relative mt-[45px] flex size-[300px] items-center justify-center rounded-full bg-gradient-to-br from-[#0E112A] to-[#2E325A] sm:size-[410px]`}
     >
-      <div className="absolute size-full rounded-full shadow-[55px_45px_60px_-15px_rgba(18,21,48,1)]"></div>
-      <div className="absolute size-full rounded-full shadow-[-55px_-45px_60px_-15px_rgba(39,44,90,1)]"></div>
+      <div className="absolute size-full rounded-full shadow-[40px_40px_60px_-15px_rgba(18,21,48,1)]"></div>
+      <div className="absolute size-full rounded-full shadow-[-40px_-40px_60px_-15px_rgba(39,44,90,1)]"></div>
       <div className="relative flex  size-[268px] flex-col items-center justify-center rounded-full bg-[#161932] text-[#D7E0FF] sm:size-[366px]">
         <Spiral currentPercentage={currentPercentage} selectedTheme={selectedTheme} />
         <h1 className={fontItems[selectedFont].h1Class}>

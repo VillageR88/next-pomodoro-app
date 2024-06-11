@@ -3,9 +3,24 @@ import Image from 'next/image';
 import imageClose from '@/public/assets/icon-close.svg';
 import imageCheck from '@/public/assets/check.svg';
 import imageReset from '@/public/assets/restart_alt_24dp_FILL0_wght400_GRAD0_opsz24.svg';
-import { DataContext } from '../_providers/DataContext';
+import {
+  DataContext,
+  SelectedMode,
+  TemporalPincer,
+  defaultValueLongBreak,
+  defaultValuePomodoro,
+  defaultValueShortBreak,
+} from '../_providers/DataContext';
 import { useContext, useEffect } from 'react';
-import { settingsItems, SelectedFont, fontItems, SelectedTheme, themeItems } from '../_providers/DataContext';
+import {
+  settingsItems,
+  SelectedFont,
+  fontItems,
+  SelectedTheme,
+  themeItems,
+  font,
+  theme,
+} from '../_providers/DataContext';
 
 const items = {
   title: 'Settings',
@@ -36,6 +51,8 @@ export default function Settings() {
     setInitialTime,
     setSelectedFont,
     setSelectedTheme,
+    setTemporalPincer,
+    selectedMode,
   } = useContext(DataContext);
   useEffect(() => {
     function handleEsc(event: KeyboardEvent) {
@@ -66,9 +83,11 @@ export default function Settings() {
               <h2 className="text-[20px] font-bold text-[#161932] sm:text-[28px]">{items.title}</h2>
               <button
                 onClick={() => {
-                  localStorage.clear();
                   setSelectedFont(SelectedFont.kumbhSans);
                   setSelectedTheme(SelectedTheme.redAlike);
+                  refTimer.current[0].valueAsNumber = defaultValuePomodoro;
+                  refTimer.current[1].valueAsNumber = defaultValueShortBreak;
+                  refTimer.current[2].valueAsNumber = defaultValueLongBreak;
                 }}
                 type="button"
                 title="reset settings"
@@ -152,15 +171,15 @@ export default function Settings() {
             <div className="mt-[24px] flex w-full flex-col items-center justify-between gap-[18px] sm:h-[40px] sm:flex-row">
               <h3>FONT</h3>
               <ul className="flex gap-[16px]">
-                {Object.values(SelectedFont).map((font, index, arr) => (
-                  <li className="buttonRing" key={font}>
+                {Object.values(SelectedFont).map((value, index, arr) => (
+                  <li className="buttonRing" key={value}>
                     <button
                       type="button"
-                      className={`size-[40px] rounded-full ${font === selectedFont ? 'bg-[#161932] text-[#FFFFFF]' : ' bg-[#EFF1FA] text-[#1E213F]'} ${fontItems[font].variable} ${arr.length === index + 2 ? '' : 'font-bold'}`}
-                      title={fontItems[font].name}
+                      className={`size-[40px] rounded-full ${value === selectedFont ? 'bg-[#161932] text-[#FFFFFF]' : ' bg-[#EFF1FA] text-[#1E213F]'} ${fontItems[value].variable} ${arr.length === index + 2 ? '' : 'font-bold'}`}
+                      title={fontItems[value].name}
                       onClick={() => {
-                        setSelectedFont(font);
-                        localStorage.setItem('font', font);
+                        setSelectedFont(value);
+                        localStorage.setItem(font, value);
                       }}
                     >
                       {items.font.letters}
@@ -173,21 +192,21 @@ export default function Settings() {
             <div className="mt-[16px] flex w-full flex-col items-center justify-between gap-[18px] pb-[59px] sm:mt-[24px] sm:h-[40px] sm:flex-row sm:pb-0">
               <h3>{items.color.title}</h3>
               <ul className="flex gap-[16px]">
-                {Object.values(SelectedTheme).map((theme) => (
-                  <li key={theme} className="buttonRing">
+                {Object.values(SelectedTheme).map((value) => (
+                  <li key={value} className="buttonRing">
                     <button
                       type="button"
-                      className={`size-[40px] rounded-full ${themeItems[theme].background} flex items-center justify-center`}
-                      title={theme}
+                      className={`size-[40px] rounded-full ${themeItems[value].background} flex items-center justify-center`}
+                      title={value}
                       onClick={() => {
-                        setSelectedTheme(theme);
-                        localStorage.setItem('theme', theme);
+                        setSelectedTheme(value);
+                        localStorage.setItem(theme, value);
                       }}
                     >
                       <Image
                         width={15}
                         height={11}
-                        className={`${theme === selectedTheme ? 'flex' : 'hidden'} h-[11px] w-[15px]`}
+                        className={`${value === selectedTheme ? 'flex' : 'hidden'} h-[11px] w-[15px]`}
                         src={imageCheck as string}
                         alt="check"
                       />
@@ -200,6 +219,25 @@ export default function Settings() {
         </div>
         <button
           type="button"
+          onClick={() => {
+            if (selectedMode === SelectedMode.pomodoro) {
+              setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
+              setInitialTime(refTimer.current[0].valueAsNumber * 60);
+            } else if (selectedMode === SelectedMode.shortBreak) {
+              setGeneralTimer(refTimer.current[1].valueAsNumber * 60);
+              setInitialTime(refTimer.current[1].valueAsNumber * 60);
+            } else {
+              setGeneralTimer(refTimer.current[2].valueAsNumber * 60);
+              setInitialTime(refTimer.current[2].valueAsNumber * 60);
+            }
+            localStorage.setItem(font, selectedFont);
+            localStorage.setItem(theme, selectedTheme);
+            localStorage.setItem(SelectedMode.pomodoro, refTimer.current[0].valueAsNumber.toString());
+            localStorage.setItem(SelectedMode.shortBreak, refTimer.current[1].valueAsNumber.toString());
+            localStorage.setItem(SelectedMode.longBreak, refTimer.current[2].valueAsNumber.toString());
+            setTemporalPincer({} as TemporalPincer);
+            setShowSettings(false);
+          }}
           className={`${themeItems[selectedTheme].background} mt-[-27px] flex h-[53px] w-[140px] items-center justify-center rounded-[26.5px] text-[16px] font-bold ${selectedTheme === SelectedTheme.blueAlike ? 'text-[#1E213F]' : 'text-[#FFFFFF]'}`}
         >
           {items.applyButton.title}

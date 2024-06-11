@@ -43,9 +43,9 @@ export const themeItems = {
   purpleAlike: { background: 'bg-[#D881F8]', stroke: 'stroke-[#D881F8]', textHover: 'hover:text-[#D881F8]' },
 };
 
-const defaultValuePomodoro = 25;
-const defaultValueShortBreak = 5;
-const defaultValueLongBreak = 15;
+export const defaultValuePomodoro = 25;
+export const defaultValueShortBreak = 5;
+export const defaultValueLongBreak = 15;
 
 export const settingsItems = {
   pomodoro: {
@@ -60,7 +60,20 @@ export const settingsItems = {
     label: 'long break',
     defaultValue: defaultValueLongBreak,
   },
-};
+} as Record<string, SettingsItems>;
+
+export interface SettingsItems {
+  label: string;
+  defaultValue: number;
+}
+export interface TemporalPincer {
+  selectedFont: SelectedFont;
+  selectedTheme: SelectedTheme;
+  selectedMode: SelectedMode;
+  pomodoroValue: number;
+  shortBreakValue: number;
+  longBreakValue: number;
+}
 
 export const DataContext = createContext(
   {} as {
@@ -81,13 +94,15 @@ export const DataContext = createContext(
     setShowSettings: Dispatch<SetStateAction<boolean>>;
     refTimer: React.MutableRefObject<HTMLInputElement[]>;
     audio: HTMLAudioElement | undefined;
+    temporalPincer: TemporalPincer;
+    setTemporalPincer: Dispatch<SetStateAction<TemporalPincer>>;
   },
 );
 
 const audioFile = '../assets/Pager Beeps-SoundBible.com-260751720.mp3';
 const undefined = 'undefined';
-const font = 'font';
-const theme = 'theme';
+export const font = 'font';
+export const theme = 'theme';
 
 export default function DataProvider({ children }: { children: ReactNode }) {
   const [selectedFont, setSelectedFont] = useState<SelectedFont>(SelectedFont.kumbhSans);
@@ -99,6 +114,7 @@ export default function DataProvider({ children }: { children: ReactNode }) {
   const refTimer = useRef<HTMLInputElement[]>([]);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [audio, setAudio] = useState<HTMLAudioElement>();
+  const [temporalPincer, setTemporalPincer] = useState<TemporalPincer>({} as TemporalPincer);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -122,25 +138,32 @@ export default function DataProvider({ children }: { children: ReactNode }) {
     }
   }, []);
   useEffect(() => {
-    if (generalTimer === 0 && running && audio) void audio.play();
+    if (generalTimer === 0 && running && audio) {
+      audio.currentTime = 0;
+      void audio.play();
+    }
   }, [audio, generalTimer, running, showSettings]);
   const handleOpenSettings = () => {
-    if (audio) audio.currentTime = audio.duration;
-    if (running) {
-      setRunning(false);
-    }
+    if (running) setRunning(false);
     setShowSettings((prev) => !prev);
     if (showSettings) {
-      if (selectedMode === SelectedMode.pomodoro) {
-        setGeneralTimer(refTimer.current[0].valueAsNumber * 60);
-        setInitialTime(refTimer.current[0].valueAsNumber * 60);
-      } else if (selectedMode === SelectedMode.shortBreak) {
-        setGeneralTimer(refTimer.current[1].valueAsNumber * 60);
-        setInitialTime(refTimer.current[1].valueAsNumber * 60);
-      } else {
-        setGeneralTimer(refTimer.current[2].valueAsNumber * 60);
-        setInitialTime(refTimer.current[2].valueAsNumber * 60);
-      }
+      setSelectedFont(temporalPincer.selectedFont);
+      setSelectedTheme(temporalPincer.selectedTheme);
+      setSelectedMode(temporalPincer.selectedMode);
+      refTimer.current[0].value = temporalPincer.pomodoroValue.toString();
+      refTimer.current[1].value = temporalPincer.shortBreakValue.toString();
+      refTimer.current[2].value = temporalPincer.longBreakValue.toString();
+      setTemporalPincer({} as TemporalPincer);
+    } else {
+      if (audio) audio.currentTime = audio.duration;
+      setTemporalPincer({
+        selectedFont,
+        selectedTheme,
+        selectedMode,
+        pomodoroValue: refTimer.current[0].valueAsNumber,
+        shortBreakValue: refTimer.current[1].valueAsNumber,
+        longBreakValue: refTimer.current[2].valueAsNumber,
+      });
     }
   };
 
@@ -164,6 +187,8 @@ export default function DataProvider({ children }: { children: ReactNode }) {
         setShowSettings,
         refTimer,
         audio,
+        temporalPincer,
+        setTemporalPincer,
       }}
     >
       {children}
