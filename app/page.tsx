@@ -4,58 +4,16 @@ import imageSettings from '@/public/assets/icon-settings.svg';
 import imageClose from '@/public/assets/icon-close.svg';
 import imageCheck from '@/public/assets/check.svg';
 import { useState, useRef, useEffect } from 'react';
+import Spiral from './components/Spiral';
+import {
+  SelectedFont,
+  SelectedMode,
+  SelectedTheme,
+  fontItems,
+  settingsItems,
+  themeItems,
+} from '@/app/_providers/DataContext';
 
-enum SelectedMode {
-  pomodoro = 'pomodoro',
-  shortBreak = 'shortBreak',
-  longBreak = 'longBreak',
-}
-
-enum SelectedFont {
-  kumbhSans = 'kumbhSans',
-  robotoSlab = 'robotoSlab',
-  spaceMono = 'spaceMono',
-}
-
-enum SelectedTheme {
-  redAlike = 'redAlike',
-  blueAlike = 'blueAlike',
-  purpleAlike = 'purpleAlike',
-  // redAlike = '#F87070',
-  // blueAlike = '#70F3F8',
-  // purpleAlike = '#D881F8',
-}
-
-const fontItems = {
-  kumbhSans: { variable: 'font-kumbhSans', name: 'Kumbh Sans' },
-  robotoSlab: { variable: 'font-robotoSlab', name: 'Roboto Slab' },
-  spaceMono: { variable: 'font-spaceMono', name: 'Space Mono' },
-};
-
-const themeItems = {
-  redAlike: { background: 'bg-[#F87070]' },
-  blueAlike: { background: 'bg-[#70F3F8]' },
-  purpleAlike: { background: 'bg-[#D881F8]' },
-};
-
-const defaultValuePomodoro = 25;
-const defaultValueShortBreak = 5;
-const defaultValueLongBreak = 15;
-
-const settingsItems = {
-  pomodoro: {
-    label: 'pomodoro',
-    defaultValue: defaultValuePomodoro,
-  },
-  shortBreak: {
-    label: 'short break',
-    defaultValue: defaultValueShortBreak,
-  },
-  longBreak: {
-    label: 'long break',
-    defaultValue: defaultValueLongBreak,
-  },
-};
 export default function Home() {
   const [running, setRunning] = useState<boolean>(false);
   const [selectedMode, setSelectedMode] = useState<SelectedMode>(SelectedMode.pomodoro);
@@ -272,15 +230,7 @@ export default function Home() {
         <div className="absolute size-full rounded-full shadow-[55px_45px_60px_-15px_rgba(18,21,48,1)]"></div>
         <div className="absolute size-full rounded-full shadow-[-55px_-45px_60px_-15px_rgba(39,44,90,1)]"></div>
         <div className="relative flex size-[268px] flex-col items-center justify-center rounded-full bg-[#161932] sm:size-[366px]">
-          <svg className="absolute" viewBox="0 0 36 36">
-            <path
-              className="circle"
-              strokeDasharray={`${currentPercentage.toString()}, 100`}
-              d="M18 2.0845
-      a 15.9155 15.9155 0 0 1 0 31.831
-      a 15.9155 15.9155 0 0 1 0 -31.831"
-            />
-          </svg>
+          <Spiral currentPercentage={currentPercentage} selectedTheme={selectedTheme} />
           <div className="absolute text-[80px] font-bold tracking-[-4px] text-[#D7E0FF] sm:text-[100px] sm:tracking-[-5px]">
             {String(Math.floor(generalTimer / 60)).padStart(1, '0') + ':' + String(generalTimer % 60).padStart(2, '0')}
           </div>

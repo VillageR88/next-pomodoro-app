@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .circle {
-  @apply fill-none stroke-[#F87070] stroke-[1px];
+  @apply fill-none stroke-[1px];
   stroke-linecap: round;
   animation: progress 1s ease-out forwards;
 }
