@@ -17,8 +17,7 @@ export default function Main() {
         }
         return prev - 1;
       });
-      //debug 1000 changed to 10
-    }, 10);
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
@@ -48,7 +47,7 @@ export default function Main() {
           }}
           className="absolute mt-[120px] flex items-center justify-center text-center text-[14px] font-bold tracking-[13px] sm:mt-[170px] sm:text-[16px] sm:tracking-[15px]"
         >
-          <span className={`w-fit pl-4 ${themeItems[selectedTheme].textHover}`}>{phase}</span>
+          <span className={`w-fit pl-4 transition-colors ${themeItems[selectedTheme].textHover}`}>{phase}</span>
         </button>
       </div>
     </main>

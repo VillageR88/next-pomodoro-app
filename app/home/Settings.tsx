@@ -96,12 +96,7 @@ export default function Settings() {
                 <Image fill src={imageReset as string} alt="reset settings" />
               </button>
             </div>
-            <button
-              onClick={handleOpenSettings}
-              title="close"
-              className="relative size-[13px] sm:mb-px sm:self-end"
-              type="button"
-            >
+            <button onClick={handleOpenSettings} title="close" className="relative size-[13px] sm:mb-px" type="button">
               <Image fill src={imageClose as string} alt="close" />
             </button>
           </div>
@@ -238,8 +233,9 @@ export default function Settings() {
             setTemporalPincer({} as TemporalPincer);
             setShowSettings(false);
           }}
-          className={`${themeItems[selectedTheme].background} mt-[-27px] flex h-[53px] w-[140px] items-center justify-center rounded-[26.5px] text-[16px] font-bold ${selectedTheme === SelectedTheme.blueAlike ? 'text-[#1E213F]' : 'text-[#FFFFFF]'}`}
+          className={`${themeItems[selectedTheme].background} group relative mt-[-27px] flex h-[53px] w-[140px] items-center justify-center rounded-[26.5px] text-[16px] font-bold ${selectedTheme === SelectedTheme.blueAlike ? 'text-[#1E213F]' : 'text-[#FFFFFF]'}`}
         >
+          <div className="absolute size-full rounded-[26.5px] transition-colors group-hover:bg-white/20"></div>
           {items.applyButton.title}
         </button>
       </div>

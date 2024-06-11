@@ -125,7 +125,11 @@ export default function DataProvider({ children }: { children: ReactNode }) {
       const valueLongBreak = localStorage.getItem(SelectedMode.longBreak);
       if (fontStorage) setSelectedFont(fontStorage as SelectedFont);
       if (themeStorage) setSelectedTheme(themeStorage as SelectedTheme);
-      if (valuePomodoro) refTimer.current[0].value = valuePomodoro;
+      if (valuePomodoro) {
+        refTimer.current[0].value = valuePomodoro;
+        setGeneralTimer(Number(valuePomodoro) * 60);
+        setInitialTime(Number(valuePomodoro) * 60);
+      }
       if (valueShortBreak) refTimer.current[1].value = valueShortBreak;
       if (valueLongBreak) refTimer.current[2].value = valueLongBreak;
       document.documentElement.classList.remove('hidden');

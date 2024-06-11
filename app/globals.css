@@ -37,11 +37,6 @@ input:hover::-webkit-inner-spin-button {
   @apply cursor-pointer bg-[url('../public/assets/arrowsHover.svg')] opacity-100;
 }
 
-input input[type='number'] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
 .buttonRing {
   @apply rounded-full outline-1 outline-offset-[5px] outline-[#EFF1FA] hover:outline;
 }
