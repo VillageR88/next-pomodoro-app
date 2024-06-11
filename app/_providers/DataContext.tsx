@@ -20,9 +20,21 @@ export enum SelectedTheme {
 }
 
 export const fontItems = {
-  kumbhSans: { variable: 'font-kumbhSans', name: 'Kumbh Sans' },
-  robotoSlab: { variable: 'font-robotoSlab', name: 'Roboto Slab' },
-  spaceMono: { variable: 'font-spaceMono', name: 'Space Mono' },
+  kumbhSans: {
+    variable: 'font-kumbhSans',
+    name: 'Kumbh Sans',
+    h1Class: 'text-[80px] font-bold tracking-[-4px] sm:text-[100px] sm:tracking-[-5px]',
+  },
+  robotoSlab: {
+    variable: 'font-robotoSlab',
+    name: 'Roboto Slab',
+    h1Class: 'text-[80px] font-bold sm:text-[100px]',
+  },
+  spaceMono: {
+    variable: 'font-spaceMono',
+    name: 'Space Mono',
+    h1Class: 'text-[80px] font-bold tracking-[-10px] sm:text-[100px]',
+  },
 };
 
 export const themeItems = {

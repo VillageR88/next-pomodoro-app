@@ -32,11 +32,11 @@ export default function Main() {
     >
       <div className="absolute size-full rounded-full shadow-[55px_45px_60px_-15px_rgba(18,21,48,1)]"></div>
       <div className="absolute size-full rounded-full shadow-[-55px_-45px_60px_-15px_rgba(39,44,90,1)]"></div>
-      <div className="relative flex size-[268px] flex-col items-center justify-center rounded-full bg-[#161932] sm:size-[366px]">
+      <div className="relative flex  size-[268px] flex-col items-center justify-center rounded-full bg-[#161932] text-[#D7E0FF] sm:size-[366px]">
         <Spiral currentPercentage={currentPercentage} selectedTheme={selectedTheme} />
-        <div className="absolute text-[80px] font-bold tracking-[-4px] text-[#D7E0FF] sm:text-[100px] sm:tracking-[-5px]">
+        <h1 className={fontItems[selectedFont].h1Class}>
           {String(Math.floor(generalTimer / 60)).padStart(1, '0') + ':' + String(generalTimer % 60).padStart(2, '0')}
-        </div>
+        </h1>
         <button
           type="button"
           onClick={() => {
@@ -46,7 +46,7 @@ export default function Main() {
             }
             setRunning((prev) => !prev);
           }}
-          className="absolute mt-[120px] flex items-center justify-center text-center text-[14px] font-bold tracking-[13px] text-[#D7E0FF] sm:mt-[170px] sm:text-[16px] sm:tracking-[15px]"
+          className="absolute mt-[120px] flex items-center justify-center text-center text-[14px] font-bold tracking-[13px] sm:mt-[170px] sm:text-[16px] sm:tracking-[15px]"
         >
           <span className={`w-fit pl-4 ${themeItems[selectedTheme].textHover}`}>{phase}</span>
         </button>

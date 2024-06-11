@@ -1,7 +1,7 @@
 'use client';
 
 import { SelectedMode } from '@/app/_providers/DataContext';
-import { DataContext, themeItems, settingsItems, fontItems } from '@/app/_providers/DataContext';
+import { DataContext, themeItems, settingsItems, fontItems, SelectedFont } from '@/app/_providers/DataContext';
 import { useContext } from 'react';
 
 export default function Navbar() {
@@ -18,7 +18,7 @@ export default function Navbar() {
   } = useContext(DataContext);
   return (
     <nav
-      className={`${fontItems[selectedFont].variable} z-10 mt-[55px] flex h-[63px] w-full max-w-[373px] items-center rounded-[31.5px] bg-[#161932] px-[24px] pl-[7px] text-[14px] font-bold`}
+      className={`${fontItems[selectedFont].variable} ${selectedFont === SelectedFont.spaceMono ? 'sm:text-[13px]' : 'sm:text-[14px]'} z-10 mt-[55px] flex h-[63px] w-full max-w-[373px] items-center rounded-[31.5px] bg-[#161932] px-[24px] pl-[7px] text-[12px] font-bold `}
     >
       {Object.values(SelectedMode).map((mode) => (
         <button
