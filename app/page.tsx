@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
     <div
-      className={`${fontItems[selectedFont].variable} group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-scroll py-[32px] sm:min-h-screen screen840:px-6`}
+      className={`${fontItems[selectedFont].variable} group/home relative z-0 flex min-h-dvh flex-col items-center justify-center overflow-x-scroll px-2 py-[32px] sm:min-h-screen screen840:px-6`}
     >
       <Settings />
       <Header />

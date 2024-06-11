@@ -59,58 +59,56 @@ export default function Settings() {
                 {Object.entries(settingsItems).map(([key, value], index) => (
                   <li
                     key={key}
-                    className="flex  flex-row items-center justify-between gap-[8px] sm:w-fit sm:flex-col sm:items-start"
+                    className="flex flex-row items-center justify-between gap-[8px] sm:w-fit sm:flex-col sm:items-start"
                   >
                     <label className="text-[12px] font-bold text-[#1E213F]/40" htmlFor={key}>
                       {value.label}
                     </label>
-                    <div className="relative">
-                      <input
-                        onBlur={() => {
-                          if (refTimer.current[index].value === '') {
-                            refTimer.current[index].valueAsNumber = 1;
-                            setGeneralTimer(1 * 60);
-                            setInitialTime(1 * 60);
-                          }
-                        }}
-                        ref={(element) => {
-                          if (element) refTimer.current.push(element);
-                        }}
-                        className="h-[48px] w-[140px] rounded-[10px] bg-[#EFF1FA] px-[16px] text-[14px] font-bold outline-none"
-                        id={key}
-                        type="number"
-                        min={1}
-                        onInput={(event) => {
-                          event.currentTarget.value = event.currentTarget.value.replace(/[^0-9]/g, '');
-                        }}
-                        onKeyDown={(event) => {
-                          if (
-                            event.key === 'e' ||
-                            event.key === 'E' ||
-                            event.key === '.' ||
-                            event.key === ',' ||
-                            event.key === '-' ||
-                            event.key === '+'
-                          ) {
-                            event.preventDefault();
-                          }
-                        }}
-                        onKeyUp={() => {
-                          const currentValue = refTimer.current[index].valueAsNumber;
-                          if (currentValue >= 999) {
-                            refTimer.current[index].valueAsNumber = 999;
-                            setGeneralTimer(999 * 60);
-                            setInitialTime(999 * 60);
-                          } else if (currentValue <= 1) {
-                            refTimer.current[index].valueAsNumber = 1;
-                            setGeneralTimer(1 * 60);
-                            setInitialTime(1 * 60);
-                          }
-                        }}
-                        defaultValue={value.defaultValue}
-                        max={999}
-                      />
-                    </div>
+                    <input
+                      onBlur={() => {
+                        if (refTimer.current[index].value === '') {
+                          refTimer.current[index].valueAsNumber = 1;
+                          setGeneralTimer(1 * 60);
+                          setInitialTime(1 * 60);
+                        }
+                      }}
+                      ref={(element) => {
+                        if (element) refTimer.current.push(element);
+                      }}
+                      className="h-[48px] w-[140px] rounded-[10px] bg-[#EFF1FA] px-[16px] text-[14px] font-bold outline-none"
+                      id={key}
+                      type="number"
+                      min={1}
+                      onInput={(event) => {
+                        event.currentTarget.value = event.currentTarget.value.replace(/[^0-9]/g, '');
+                      }}
+                      onKeyDown={(event) => {
+                        if (
+                          event.key === 'e' ||
+                          event.key === 'E' ||
+                          event.key === '.' ||
+                          event.key === ',' ||
+                          event.key === '-' ||
+                          event.key === '+'
+                        ) {
+                          event.preventDefault();
+                        }
+                      }}
+                      onKeyUp={() => {
+                        const currentValue = refTimer.current[index].valueAsNumber;
+                        if (currentValue >= 999) {
+                          refTimer.current[index].valueAsNumber = 999;
+                          setGeneralTimer(999 * 60);
+                          setInitialTime(999 * 60);
+                        } else if (currentValue <= 1) {
+                          refTimer.current[index].valueAsNumber = 1;
+                          setGeneralTimer(1 * 60);
+                          setInitialTime(1 * 60);
+                        }
+                      }}
+                      defaultValue={value.defaultValue}
+                      max={999}
+                    />
                   </li>
                 ))}
               </ul>
