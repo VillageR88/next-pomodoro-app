@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import imageSettings from '@/public/assets/icon-settings.svg';
 import { DataContext } from '../_providers/DataContext';

@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import imageClose from '@/public/assets/icon-close.svg';
 import imageCheck from '@/public/assets/check.svg';
@@ -35,7 +36,9 @@ export default function Settings() {
     setSelectedTheme,
   } = useContext(DataContext);
   return (
-    <div className={`${showSettings ? 'block' : 'hidden'} absolute z-30 mt-[32px] w-full items-center sm:mt-[27px]`}>
+    <div
+      className={`${showSettings ? 'block' : 'hidden'} ${fontItems[selectedFont].variable} absolute z-30 mt-[32px] w-full items-center sm:mt-[27px]`}
+    >
       <div className="flex w-full flex-col items-center px-[24px]">
         <div
           className={`flex min-h-[549px] w-full max-w-[540px] flex-col items-center rounded-[25px] bg-[#FFFFFF] pt-[24px] sm:min-h-[464px] sm:pt-[34px]`}

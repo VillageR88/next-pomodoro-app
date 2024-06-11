@@ -1,12 +1,25 @@
+'use client';
+
 import { SelectedMode } from '@/app/_providers/DataContext';
-import { DataContext, themeItems, settingsItems } from '@/app/_providers/DataContext';
+import { DataContext, themeItems, settingsItems, fontItems } from '@/app/_providers/DataContext';
 import { useContext } from 'react';
 
 export default function Navbar() {
-  const { selectedMode, setSelectedMode, setGeneralTimer, setInitialTime, setRunning, selectedTheme, refTimer, audio } =
-    useContext(DataContext);
+  const {
+    selectedMode,
+    setSelectedMode,
+    selectedFont,
+    setGeneralTimer,
+    setInitialTime,
+    setRunning,
+    selectedTheme,
+    refTimer,
+    audio,
+  } = useContext(DataContext);
   return (
-    <nav className="z-10 mt-[55px] flex h-[63px] w-full max-w-[373px] items-center rounded-[31.5px] bg-[#161932] px-[24px] pl-[7px] text-[14px] font-bold">
+    <nav
+      className={`${fontItems[selectedFont].variable} z-10 mt-[55px] flex h-[63px] w-full max-w-[373px] items-center rounded-[31.5px] bg-[#161932] px-[24px] pl-[7px] text-[14px] font-bold`}
+    >
       {Object.values(SelectedMode).map((mode) => (
         <button
           key={mode}
