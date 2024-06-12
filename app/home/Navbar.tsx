@@ -39,13 +39,10 @@ export default function Navbar() {
             }
           }}
           type="button"
-          className={`group relative h-[48px] w-[120px] rounded-[26.5px] ${
+          className={`relative h-[48px] w-[120px] rounded-[26.5px] ${
             selectedMode === mode ? `${themeItems[selectedTheme].background} text-[#1E213F]` : 'text-[#D7E0FF]/40'
           }`}
         >
-          <div
-            className={`absolute inset-0 size-full rounded-[26.5px] transition-colors ${selectedMode === mode ? 'group-hover:bg-white/20' : ''}`}
-          ></div>
           {settingsItems[mode].label}
         </button>
       ))}
