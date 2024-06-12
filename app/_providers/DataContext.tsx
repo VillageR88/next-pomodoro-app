@@ -138,7 +138,7 @@ export default function DataProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.title = `Pomodoro - ${String(Math.floor(generalTimer / 60)).padStart(1, '0') + ':' + String(generalTimer % 60).padStart(2, '0')}`;
-  }, [generalTimer]); // This effect runs whenever generalTimer changes
+  }, [generalTimer]);
 
   useEffect(() => {
     if (typeof window !== undefined) {
