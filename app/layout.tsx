@@ -26,7 +26,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Pomodoro app',
+  title: 'Pomodoro',
   description: 'Pomodoro app',
   applicationName: 'Pomodoro app',
 } as const;
